@@ -123,13 +123,13 @@
     </section>
     <section class="content">
 
-        <div class="row">
-            <div class="col-md-12">
-                <a href="{{route('admin.user.create')}}" type="submit" class="btn btn-success btn-block"><b>Добавить</b></a>
-                <br>
+            <div class="row">
+                <div class="col-md-12">
+                <a href="{{route('admin.reason.create')}}" type="submit" class="btn btn-success btn-block"><b>Добавить</b></a>
+                    <br>
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Пользователи</h3>
+                        <h3 class="card-title">Причины</h3>
 
 
                     </div>
@@ -137,40 +137,36 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Имя</th>
-                                <th>Роль</th>
+                                <th>Название</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($users as $user)
+@foreach($reasons as $reason)
 
-                                <tr>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->role }}</td>
-                                    <td class="text-right align-middle">
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="{{route('admin.user.edit',  $user->id)}}" class="btn btn-info"><i
-                                                    class="fas fa-eye"></i></a>
-                                            <form action="{{route('admin.user.delete', $user->id)}}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type='submit' class="btn btn-danger"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </form>
+    <tr>
+        <td>{{$reason->title}}</td>
+        <td class="text-right align-middle">
+            <div class="btn-group btn-group-sm">
+                <a href="{{route('admin.reason.edit',  $reason->id)}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                <form action="{{route('admin.reason.delete', $reason->id)}}" method="post">
+                    @csrf
+                    @method('delete')
+                    <button  type='submit'  class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                </form>
 
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
+            </div>
+        </td>
+    </tr>
+@endforeach
 
                             </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
                 </div>
+                </div>
             </div>
-        </div>
 
     </section>
     <script>

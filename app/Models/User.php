@@ -24,6 +24,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = 'users';
     protected $hidden = [
         'password',
         'remember_token',
@@ -38,4 +39,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function problemIds() {
+        return UserProblem::where('user_id', $this->id)->get('id');
+    }
+    public function workProblems() {
+       return Problem::whereIn('id', $this->problemIds())->where('status', 'В работе')->get();
+    }
+    public function completedProblems() {
+        return Problem::whereIn('id', $this->problemIds())->where('status', 'Завершено')->get();
+    }
 }

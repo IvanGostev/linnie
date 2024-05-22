@@ -125,52 +125,53 @@
 
         <div class="row">
             <div class="col-md-12">
-                <a href="{{route('admin.user.create')}}" type="submit" class="btn btn-success btn-block"><b>Добавить</b></a>
-                <br>
-                <div class="card card-info">
-                    <div class="card-header">
-                        <h3 class="card-title">Пользователи</h3>
 
 
+                    <a  href="{{route('document.file.create', $document->id)}}"
+                            class="btn btn-success btn-block"><b>Добавить файл</b></a>
+
+                    <br>
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fa-regular fa-file"></i> Файлы прикрепленные к {{$document->title}}</h3>
+
+
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+{{--                                <thead>--}}
+{{--                                <tr>--}}
+{{--                                    <th></th>--}}
+{{--                                    <th></th>--}}
+{{--                                </tr>--}}
+{{--                                </thead>--}}
+                                <tbody>
+                                @foreach($document->files() as $file)
+
+                                    <tr>
+                                        <td><a download="{{$file->title}}" href="{{ asset('storage/' . $file->src) }}">{{$file->title}}</a></td>
+                                        <td class="text-right align-middle">
+                                            <div class="btn-group btn-group-sm">
+                                                <form action="{{route('document.file.delete', $file->id)}}"
+                                                      method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type='submit' class="btn btn-danger"><i
+                                                            class="fas fa-trash"></i></button>
+                                                </form>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
                     </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Имя</th>
-                                <th>Роль</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($users as $user)
-
-                                <tr>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->role }}</td>
-                                    <td class="text-right align-middle">
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="{{route('admin.user.edit',  $user->id)}}" class="btn btn-info"><i
-                                                    class="fas fa-eye"></i></a>
-                                            <form action="{{route('admin.user.delete', $user->id)}}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type='submit' class="btn btn-danger"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </form>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
                 </div>
             </div>
-        </div>
 
     </section>
     <script>

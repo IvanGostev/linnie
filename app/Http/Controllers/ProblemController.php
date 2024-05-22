@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Problem;
 use App\Models\ProblemImage;
+use App\Models\Reason;
 use App\Models\Report;
+use App\Models\UserProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,8 +14,13 @@ class ProblemController extends Controller
 {
     public function index()
     {
-        $problems = Problem::where('status', '!=', 'Завершено')->get();
         $active = 'problem';
+        if (auth()->user()->role == 2) {
+            $problems = Problem::where('status', '!=', 'Завершено')->get();
+
+        } else {
+            $problems = Problem::where('status', '=', 'Новая')->orWhere('status', '=', 'Простой')->get();
+        }
         return view('home', compact('problems', 'active'));
     }
 
@@ -21,7 +28,7 @@ class ProblemController extends Controller
     {
         $problems = Problem::where('status', '=', 'Завершено')->get();
         $active = 'problem';
-        return view('home', compact('problems', 'active'));
+        return view('completed', compact('problems', 'active'));
     }
 
     public function search(Request $request)
@@ -35,8 +42,9 @@ class ProblemController extends Controller
 
     public function create()
     {
-        $active = 'problem';
-        return view('problem.create', compact('active'));
+        $active = '0';
+        $reasons = Reason::all();
+        return view('problem.create', compact('active', 'reasons'));
     }
 
     public function store(Request $request)
@@ -60,9 +68,21 @@ class ProblemController extends Controller
     public function edit(Problem $problem)
     {
         $active = 'problem';
-        return view('problem.edit', compact('problem', 'active'));
+        $reasons = Reason::all();
+        return view('problem.edit', compact('problem', 'active', 'reasons'));
     }
-
+    public function show(Problem $problem)
+    {
+        $active = 'problem';
+        return view('problem.show', compact('problem', 'active'));
+    }
+    public function work(Problem $problem)
+    {
+        $problem->status = 'В работе';
+        $problem->update();
+        UserProblem::create(['user_id' => auth()->user()->id, 'problem_id' => $problem->id]);
+        return redirect()->route('profile.edit', auth()->user()->id);
+    }
     public function update(Problem $problem, Request $request)
     {
         $data = $request->all();
@@ -81,7 +101,7 @@ class ProblemController extends Controller
                 ProblemImage::create(['src' => $image, 'problem_id' => $problem->id]);
             }
         }
-        return redirect()->route('home');
+        return redirect()->route('profile.edit', auth()->user()->id);
     }
 
     public function delete(Problem $problem)

@@ -15,7 +15,14 @@ class Problem extends Model
     public function report() {
         return Report::where('problem_id', $this->id)->first();
     }
+    public function reason() {
+        return Reason::where('id', $this->reason_id)->first();
+    }
     public function reportCount() {
         return Report::where('problem_id', $this->id)->count();
+    }
+    public function user() {
+        $temp = UserProblem::where('problem_id', $this->id)->first();
+        return User::where('id', $temp->user_id)->first();
     }
 }

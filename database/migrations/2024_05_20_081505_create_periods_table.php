@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Document;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('document_images', function (Blueprint $table) {
+        Schema::create('periods', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Document::class)->constrained();
-            $table->string('src');
             $table->timestamps();
         });
     }
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('document_images');
+        Schema::dropIfExists('periods');
     }
 };

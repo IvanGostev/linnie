@@ -19,13 +19,16 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     @foreach($documents as $document)
-                        <div class="callout callout-info">
-                            <a style="text-decoration: none; color: white" href="{{route('document.show', $document->id)}}">
+                        <div class="callout callout-info justify-content-between">
+                            <a style="display: block; text-decoration: none; color: white" href="{{route('document.show', $document->id)}}">
                                 <h5>{{$document->title}}</h5>
 
                                 <p>{{$document->about}}</p>
                             </a>
-
+                            @if(auth()->user()->role == 2)
+                                <br>
+                                <a href="{{route('document.edit', $document->id)}}" style="display: block; "  class="btn btn-secondary">Прикрепленные файлы</a>
+                            @endif
                         </div>
                     @endforeach
                 </div>

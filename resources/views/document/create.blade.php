@@ -150,22 +150,6 @@
                                     <label for="exampleInputEmail1">Основная часть</label>
                                     <textarea name="text" class="form-control" rows="20"></textarea>
                                 </div>
-                                <div class="card card-success">
-                                    {{--                                        <div class="card-header">--}}
-                                    {{--                                            <h3 class="card-title">Фотографии</h3>--}}
-
-                                    {{--                                            <div class="card-tools">--}}
-                                    {{--                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"--}}
-                                    {{--                                                        title="Collapse">--}}
-                                    {{--                                                    <i class="fas fa-minus"></i>--}}
-                                    {{--                                                </button>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                        </div>--}}
-                                    <div class="card-body">
-                                        <input style="display: none" name="images[]" type="file" id="images"
-                                               multiple>
-                                    </div>
-                                </div>
 
                             </div>
 
@@ -221,7 +205,7 @@
             // open.textContent = 'Открыть' // текст кнопки
             // после создания функции element переписали создание элементов
             const preview = element('div', ['gpreview'])
-            const open = element('a', ['gbtn'], 'Выбрать фотографии')
+            const open = element('a', ['gbtn'], 'Выбрать файлы')
             const upload = element('a', ['gbtn', 'gprimary', 'none'], 'Загрузить')
             upload.style.display = 'none'; // скрываем копку
 
@@ -296,7 +280,7 @@
 
         upload("#images", {
             multi: true, // если true то можем загружать несколько файлов
-            accept: ['.png', '.jpg', '.gif']
+            // accept: ['.png', '.jpg', '.gif']
         })
     </script>
 @endsection

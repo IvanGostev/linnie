@@ -4,7 +4,7 @@
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2" style="justify-content: center">
-                <h1>Заявки</h1>
+                <h1>Завершенные заявки</h1>
 
             </div>
         </div><!-- /.container-fluid -->
@@ -41,9 +41,9 @@
                     <div
                         class="card card-outline card-{{$problem->status == 'Новая' ? 'success' : ($problem->status == 'В работе' ? 'warning' : ($problem->status == 'Завершено' ? 'info' : 'danger'))}} collapsed-card">
                         <div class="card-header">
-                            <a href="{{route('problem.show', $problem->id)}}" style="color: white;">
+                            <a href="{{route('problem.edit', $problem->id)}}" style="color: white;">
                                 <h3 class="card-title"
-                                    style="display: flex; justify-content: space-between">{{$problem->reason()->title}}</h3>
+                                    style="display: flex; justify-content: space-between">{{$problem->title}}</h3>
                             </a>
 
                             <div class="card-tools">
@@ -62,12 +62,10 @@
                                         class="fa-solid fa-play"></i> {{$problem->status}}</span>
 
                             @elseif($problem->status == 'В работе')
-                                <span style="color: #ffc107"> <i
-                                        class="fa-regular fa-clock"></i>{{$problem->status}} <span style="color: white">({{$problem->user()->name}})</span></span>
-
+                                <span style="color: #ffc107"> <i class="fa-regular fa-clock"></i>{{$problem->status}}</span>
                             @elseif($problem->status == 'Завершено')
-                                <span style="color: #17a2b8"><i
-                                        class="far fa-check-circle"></i> {{$problem->status}}</span>
+                                <span style="color: dodgerblue"><i
+                                        class="far fa-check-circle" style="color: dodgerblue"></i> {{$problem->status}} <span style="color: white">({{$problem->user()->name}})</span></span>
                             @elseif($problem->status == 'Простой')
                                 <span style="color: #dc3545"><i
                                         class="fa-solid fa-pause"></i> {{$problem->status}}</span>
@@ -82,27 +80,9 @@
                         <div class="card-body" style="display: none">
                             {{$problem->text}}
                             <div style="display: flex; justify-content:space-between;">
-{{--                                @if(auth()->user()->role > 0 and !($problem->reportCount()))--}}
-{{--                                    <a href={{route('report.create', $problem->id)}}><i class="fas fa-file-alt"></i>Написать--}}
-{{--                                        отчет</a>--}}
-{{--                                @endif--}}
-{{--                                @if(auth()->user()->role > 1 and $problem->reportCount())--}}
-{{--                                    <a href={{route('report.show', $problem->report()->id)}}><i--}}
-{{--                                            class="fas fa-file-alt"></i>Посмотреть--}}
-{{--                                        отчет</a>--}}
-{{--                                @endif--}}
-                                @if(auth()->user()->role == 1)
-                                    <a class="btn btn-primary btn-block mr-2" href="{{route('problem.edit', $problem->id)}}"><i
-                                            class="fa-solid fa-pen-to-square"></i>Взять в работу</a>
-                                @endif
-                                @if($problem->user_id == auth()->user()->id || auth()->user()->role == 2)
-                                    <form action="{{route('problem.delete', $problem->id)}}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-block" ><i
-                                                class="fa-solid fa-trash"></i> Удалить
-                                        </button>
-                                    </form>
+
+                                @if(auth()->user()->role > 1 and $problem->reportCount())
+                                    <a  class="btn btn-primary btn-block" href={{route('report.show', $problem->id)}}><i class="fas fa-file-alt"></i>Посмотреть</a>
                                 @endif
                             </div>
 

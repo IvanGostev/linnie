@@ -27,6 +27,8 @@ class ReportController extends Controller
         unset($data['images']);
         $data['user_id'] = auth()->user()->id;
         $data['problem_id'] = $problem->id;
+        $problem->status = 'Завершено';
+        $problem->update();
         $report = Report::create($data);
         if (isset($images)) {
             foreach ($images as $image) {
@@ -38,9 +40,10 @@ class ReportController extends Controller
         return redirect()->route('home');
     }
 
-    public function show(Report $report)
+    public function show(Problem $problem)
     {
-        return view('report.show', compact('report'));
+        $report = Report::where('problem_id', $problem->id)->first();
+        return view('report.show', compact('report', 'problem'));
     }
 
 }

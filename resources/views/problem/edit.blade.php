@@ -140,9 +140,14 @@
 
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Название</label>
-                                    <input name="title" value="{{$problem->title}}" class="form-control">
+                                    <label for="exampleInputEmail1">Причина</label>
+                                    <select name="reason_id" class="form-control">
+                                        @foreach($reasons as $reason)
+                                            <option {{$problem->reason_id == $reason->id ? 'selected' : ''}} value="{{$reason->id}}">{{$reason->title}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
+                                @if(auth()->user()->role == 2)
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Статус</label>
                                     <select name="status" class="form-control">
@@ -152,6 +157,7 @@
                                         <option  {{$problem->status == 'Более 24 часов' ? 'selected' : ''}} value="Более 24 часов">Более 24 часов</option>
                                     </select>
                                 </div>
+                                @endif
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Примечание</label>
                                     <textarea name="text" class="form-control" rows="15">{{$problem->text}}</textarea>
@@ -168,8 +174,6 @@
                                     {{--                                            </div>--}}
                                     {{--                                        </div>--}}
                                     <div class="card-body">
-                                        <input style="display: none" name="images[]" type="file" id="images"
-                                               multiple>
                                         <div class="gpreview gpreview-demo">
                                             @foreach($problem->images() as $image)
                                                 <div class="gpreview-img">

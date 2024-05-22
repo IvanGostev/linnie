@@ -153,7 +153,7 @@
                                             <label for="inputName" class="col-sm-2 col-form-label">Пароль</label>
                                             <div class="col-sm-10">
                                                 <input class="form-control" type="password" name="password" id="inputName"
-                                                       placeholder="Имя">
+                                                       placeholder="Пароль">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -161,9 +161,9 @@
                                             <div class="col-sm-10">
 
                                                 <select class="form-control" name="role">
-                                                    <option value="0">Пользователь</option>
-                                                    <option value="1">Мастер</option>
-                                                    <option value="2">Админ</option>
+                                                    <option value="0">Мастер Бригады</option>
+                                                    <option value="1">Инженер КИПиА</option>
+                                                    <option value="2">Администратор</option>
                                                 </select>
 
                                             </div>

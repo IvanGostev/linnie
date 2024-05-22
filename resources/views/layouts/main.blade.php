@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Линни</title>
-{{!isset($active) ? $active = '0' : ''}}
+    <meta {{!isset($active) ? $active = '0' : ''}}>
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -27,24 +28,24 @@
     </div>
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-dark" style="margin-left: 0!important; display: flex!important;">
-        <!-- Left navbar links -->
+    <nav class="main-header navbar navbar-expand navbar-dark" style="margin-left: 0!important; display: flex!important;  font-size: 14px!important;" >
         <ul class="navbar-nav">
             @if($active == 'problem')
-            <li class="nav-item d-sm-inline-block">
-                <a href="{{route('problem.create')}}" class="nav-link">Создать заявку</a>
+            <li class="nav-item d-sm-inline-block pr-1" >
+                <a class="btn btn-dark btn-block" href="{{route('problem.create')}}" >Создать заявку</a>
             </li>
-            <li class="nav-item d-sm-inline-block">
-                <a href="{{route('problem.completed')}}" class="nav-link">Завершенные заявки</a>
+                @if(auth()->user()->role == 2)
+            <li class="nav-item d-sm-inline-block pr-1" >
+                <a href="{{route('problem.completed')}}" class="btn btn-dark btn-block" >Завершенные заявки</a>
             </li>
+                @endif
             @endif
                 @if($active == 'document' and auth()->user()->role == 2 )
-            <li class="nav-item d-sm-inline-block">
-                <a href="{{route('document.create')}}" class="nav-link">Создать документ</a>
+            <li class="nav-item d-sm-inline-block pr-1">
+                <a href="{{route('document.create')}}" class="btn btn-dark btn-block" >Создать документ</a>
             </li>
                 @endif
         </ul>
-        <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Navbar Search -->
 
@@ -101,18 +102,20 @@
 {{--            </li>--}}
 
         </ul>
+
     </nav>
 
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper" style="margin-left: 0!important;">
+<br>
         @yield('content')
 
     </div>
     <!-- /.content-wrapper -->
 
     <!-- Main Footer -->
-    <footer class="main-footer" style="margin-left: 0!important; display: flex ;justify-content: center; padding: 0px" >
+    <footer class="main-footer" style="margin-left: 0!important; display: flex ;justify-content: center; padding: 0px;">
         <div class="wrapper-newmenu">
             <div class="navbar-newmenu">
                 <a href="{{route('home')}}" class="navitem-newmenu {{$active == 'problem' ? 'active' : ''}}" onclick="select(this)" data-clr="#e4ecfa">

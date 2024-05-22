@@ -123,55 +123,73 @@
     </section>
     <section class="content">
 
-        <div class="row">
-            <div class="col-md-12">
-                <a href="{{route('admin.user.create')}}" type="submit" class="btn btn-success btn-block"><b>Добавить</b></a>
-                <br>
-                <div class="card card-info">
-                    <div class="card-header">
-                        <h3 class="card-title">Пользователи</h3>
+        <div class="container-fluid">
 
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title">Заявка №{{$problem->id}}</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
 
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Причина</label>
+                                <h6>{{$problem->reason()->title}}</h6>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Статус</label>
+                                <p>{{$problem->status}}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Примечание</label>
+                                <p>{{$problem->text}}</p>
+                            </div>
+                            <div class="card card-success">
+                                {{--                                        <div class="card-header">--}}
+                                {{--                                            <h3 class="card-title">Фотографии</h3>--}}
+
+                                {{--                                            <div class="card-tools">--}}
+                                {{--                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"--}}
+                                {{--                                                        title="Collapse">--}}
+                                {{--                                                    <i class="fas fa-minus"></i>--}}
+                                {{--                                                </button>--}}
+                                {{--                                            </div>--}}
+                                {{--                                        </div>--}}
+                                <div class="card-body">
+                                    <div class="gpreview gpreview-demo">
+                                        @foreach($problem->images() as $image)
+                                            <div class="gpreview-img">
+                                                <a href="{{ asset('storage/' . $image->src) }}"><img
+                                                        src="{{asset('storage/' . $image->src)}}"></a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- /.card-body -->
+                        <form action="{{route('problem.work', $problem->id)}}" enctype="multipart/form-data"
+                              method="post">
+                            @csrf
+                            @if(auth()->user()->role == 1)
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Взять в работу</button>
+                                </div>
+                            @endif
+                        </form>
                     </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Имя</th>
-                                <th>Роль</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($users as $user)
 
-                                <tr>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->role }}</td>
-                                    <td class="text-right align-middle">
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="{{route('admin.user.edit',  $user->id)}}" class="btn btn-info"><i
-                                                    class="fas fa-eye"></i></a>
-                                            <form action="{{route('admin.user.delete', $user->id)}}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type='submit' class="btn btn-danger"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </form>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
                 </div>
-            </div>
-        </div>
 
+
+            </div>
     </section>
     <script>
         function formatBytes(bytes, decimals = 2) {
@@ -214,9 +232,9 @@
             const upload = element('a', ['gbtn', 'gprimary', 'none'], 'Загрузить')
             upload.style.display = 'none'; // скрываем копку
 
-            // if (options.multi) {
-            //     input.setAttribute('multiple', false) // разрешили загрузку нескольких фалов
-            // }
+            if (options.multi) {
+                input.setAttribute('multiple', true) // разрешили загрузку нескольких фалов
+            }
             if (options.accept && Array.isArray(options.accept)) {
                 input.setAttribute('accept', options.accept.join(',')) // указали какие типы фалов нужны
             }
@@ -225,7 +243,10 @@
             input.insertAdjacentElement('afterend', open) // размещаем объект после input
 
 
-            const triggerInput = () => input.click() // нажимаем на input
+            const triggerInput = () => {
+                document.querySelector('.gpreview-demo').style.display = 'none'
+                input.click() // нажимаем на input
+            }
 
             const changeHandler = event => {
 

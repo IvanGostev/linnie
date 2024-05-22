@@ -139,6 +139,14 @@
 
                                 <div class="card-body">
                                     <div class="form-group">
+                                        <label for="exampleInputEmail1">Причина</label>
+                                            <select name="reason_id" class="form-control">
+                                                @foreach($reasons as $reason)
+                                                    <option value="{{$reason->id}}">{{$reason->title}}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="exampleInputEmail1">Примечание</label>
                                         <textarea name="text" class="form-control" rows="15"></textarea>
                                     </div>

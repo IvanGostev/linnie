@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+
+class AdminController extends Controller
+{
+
+    public function index()
+    {
+        $active = 'settings';
+        return view('admin.index', compact('active'));
+    }
+
+
+}

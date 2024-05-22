@@ -122,56 +122,45 @@
     <section class="content-header">
     </section>
     <section class="content">
+        <div class="container-fluid">
+            <div class="row">
 
-        <div class="row">
-            <div class="col-md-12">
-                <a href="{{route('admin.user.create')}}" type="submit" class="btn btn-success btn-block"><b>Добавить</b></a>
-                <br>
-                <div class="card card-info">
-                    <div class="card-header">
-                        <h3 class="card-title">Пользователи</h3>
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="tab-content">
 
 
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Имя</th>
-                                <th>Роль</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($users as $user)
-
-                                <tr>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->role }}</td>
-                                    <td class="text-right align-middle">
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="{{route('admin.user.edit',  $user->id)}}" class="btn btn-info"><i
-                                                    class="fas fa-eye"></i></a>
-                                            <form action="{{route('admin.user.delete', $user->id)}}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type='submit' class="btn btn-danger"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </form>
-
+                                <div class="active tab-pane" id="settings">
+                                    <form class="form-horizontal" method="post" action="{{route('admin.reason.store')}}" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-2 col-form-label">Название</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" name="title" id="inputName"
+                                                       placeholder="Название">
+                                            </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-
-                            </tbody>
-                        </table>
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-success">Создать</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.tab-pane -->
+                            </div>
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
                     </div>
-                    <!-- /.card-body -->
+                    <!-- /.card -->
                 </div>
+                <!-- /.col -->
             </div>
-        </div>
-
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
     </section>
     <script>
         function formatBytes(bytes, decimals = 2) {
@@ -210,7 +199,7 @@
             // open.textContent = 'Открыть' // текст кнопки
             // после создания функции element переписали создание элементов
             const preview = element('div', ['gpreview'])
-            const open = element('a', ['gbtn'], 'Выбрать фотографии')
+            const open = element('a', ['gbtn'], 'Выбрать фотографию')
             const upload = element('a', ['gbtn', 'gprimary', 'none'], 'Загрузить')
             upload.style.display = 'none'; // скрываем копку
 

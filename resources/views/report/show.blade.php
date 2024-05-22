@@ -130,6 +130,61 @@
                     <!-- general form elements -->
                     <div class="card card-secondary">
                         <div class="card-header">
+                            <h3 class="card-title">Заявка №{{$problem->id}}</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Причина</label>
+                                <h6>{{$problem->reason()->title}}</h6>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Статус</label>
+                                <p>{{$problem->status}}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Примечание</label>
+                                <p>{{$problem->text}}</p>
+                            </div>
+                            <div class="card card-success">
+                                {{--                                        <div class="card-header">--}}
+                                {{--                                            <h3 class="card-title">Фотографии</h3>--}}
+
+                                {{--                                            <div class="card-tools">--}}
+                                {{--                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"--}}
+                                {{--                                                        title="Collapse">--}}
+                                {{--                                                    <i class="fas fa-minus"></i>--}}
+                                {{--                                                </button>--}}
+                                {{--                                            </div>--}}
+                                {{--                                        </div>--}}
+                                <div class="card-body">
+                                    <div class="gpreview gpreview-demo">
+                                        @foreach($problem->images() as $image)
+                                            <div class="gpreview-img">
+                                                <a href="{{ asset('storage/' . $image->src) }}"><img
+                                                        src="{{asset('storage/' . $image->src)}}"></a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-secondary">
+                        <div class="card-header">
                             <h3 class="card-title">Просмотр отчета</h3>
                         </div>
                         <!-- /.card-header -->

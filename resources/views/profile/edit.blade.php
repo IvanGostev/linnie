@@ -129,10 +129,10 @@
 
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
-                            <div class="text-center">
+                            <div class="text-center" >
                                 <img class="profile-user-img img-fluid img-circle"
-                                     src="{{ asset('storage/' . $user->img) }}"
-                                     alt="User profile picture">
+                                     src="{{ asset('storage/' . $user->img) }}" style="max-width: 100px!important; max-height: 100px!important"
+                                     alt="User profile picture" width="100" height="100">
                             </div>
 
                             <h3 class="profile-username text-center">{{$user->name}}</h3>
@@ -186,6 +186,78 @@
                         </div><!-- /.card-body -->
                     </div>
                     <!-- /.card -->
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title">Заявки в работе</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Причина</th>
+                                    <th>Дата</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($user->workProblems() as $problem)
+
+                                    <tr>
+                                        <td>{{$problem->reason()->title}}</td>
+                                        <td>{{$problem->created_at }}</td>
+                                        <td class="text-right align-middle">
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{{route('problem.edit',  $problem->id)}}" class="btn btn-success">Редактировать</a>
+                                            </div>
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{{route('report.create',  $problem->id)}}" class="btn btn-info">Написать отчет</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title">Заявки завершеные</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Причина</th>
+                                    <th>Дата</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($user->completedProblems() as $problem)
+
+                                    <tr>
+                                        <td>{{$problem->reason()->title}}</td>
+                                        <td>{{$problem->created_at }}</td>
+                                        <td class="text-right align-middle">
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{{route('report.show',  $problem->id)}}" class="btn btn-info"><i
+                                                        class="fas fa-eye"></i>Посмотреть</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
                 </div>
                 <!-- /.col -->
             </div>

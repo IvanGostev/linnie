@@ -123,55 +123,47 @@
     </section>
     <section class="content">
 
-        <div class="row">
-            <div class="col-md-12">
-                <a href="{{route('admin.user.create')}}" type="submit" class="btn btn-success btn-block"><b>Добавить</b></a>
-                <br>
-                <div class="card card-info">
-                    <div class="card-header">
-                        <h3 class="card-title">Пользователи</h3>
+        <div class="container-fluid">
+            <form action="{{route('document.file.store', $document->id)}}" enctype="multipart/form-data" method="post">
+                @csrf
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">Форма прикрепления файла к документу</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Название</label>
+                                    <input name="title" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Файл</label>
+                                    <div class="col-md-3">
+                                        <input name="src" type="file" class="form-control" id="customFile"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-secondary">Создать</button>
+                            </div>
+                        </div>
 
 
                     </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Имя</th>
-                                <th>Роль</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($users as $user)
 
-                                <tr>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->role }}</td>
-                                    <td class="text-right align-middle">
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="{{route('admin.user.edit',  $user->id)}}" class="btn btn-info"><i
-                                                    class="fas fa-eye"></i></a>
-                                            <form action="{{route('admin.user.delete', $user->id)}}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <button type='submit' class="btn btn-danger"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </form>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
                 </div>
-            </div>
-        </div>
+            </form>
 
+        </div>
     </section>
     <script>
         function formatBytes(bytes, decimals = 2) {
@@ -210,13 +202,13 @@
             // open.textContent = 'Открыть' // текст кнопки
             // после создания функции element переписали создание элементов
             const preview = element('div', ['gpreview'])
-            const open = element('a', ['gbtn'], 'Выбрать фотографии')
+            const open = element('a', ['gbtn'], 'Выбрать файлы')
             const upload = element('a', ['gbtn', 'gprimary', 'none'], 'Загрузить')
             upload.style.display = 'none'; // скрываем копку
 
-            // if (options.multi) {
-            //     input.setAttribute('multiple', false) // разрешили загрузку нескольких фалов
-            // }
+            if (options.multi) {
+                input.setAttribute('multiple', true) // разрешили загрузку нескольких фалов
+            }
             if (options.accept && Array.isArray(options.accept)) {
                 input.setAttribute('accept', options.accept.join(',')) // указали какие типы фалов нужны
             }
@@ -285,7 +277,7 @@
 
         upload("#images", {
             multi: true, // если true то можем загружать несколько файлов
-            accept: ['.png', '.jpg', '.gif']
+            // accept: ['.png', '.jpg', '.gif']
         })
     </script>
 @endsection

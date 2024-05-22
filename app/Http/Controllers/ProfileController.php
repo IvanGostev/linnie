@@ -23,8 +23,9 @@ class ProfileController extends Controller
     {
 
         $data = $request->all();
-        $data['img'] = Storage::disk('public')->put('/images', $data['img']);
-
+        if(isset($data['img']))  {
+            $data['img'] = Storage::disk('public')->put('/images', $data['img']);
+        }
         $user->update($data);
         return back();
     }

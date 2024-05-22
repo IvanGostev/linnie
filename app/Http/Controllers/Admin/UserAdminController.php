@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Problem;
 use App\Models\ProblemImage;
 use App\Models\Report;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class AdminUserController extends Controller
+class UserAdminController extends Controller
 {
 
     public function index()
@@ -20,13 +21,13 @@ class AdminUserController extends Controller
         $users = User::all();
         return view('admin.user.index', compact('active', 'users'));
     }
+
     public function create()
     {
         $active = 'settings';
 
         return view('admin.user.create', compact('active'));
     }
-
 
 
     public function store(Request $request)
@@ -50,8 +51,15 @@ class AdminUserController extends Controller
     {
 
         $data = $request->all();
-        $data['img'] = Storage::disk('public')->put('/images', $data['img']);
+        if (isset($data['img'])) {
+            $data['img'] = Storage::disk('public')->put('/images', $data['img']);
+        }
 
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
         $user->update($data);
         return redirect()->route('admin.user.index');
     }

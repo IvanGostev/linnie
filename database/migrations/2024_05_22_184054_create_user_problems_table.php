@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Reason;
+use App\Models\Problem;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('problems', function (Blueprint $table) {
+        Schema::create('user_problems', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
-            $table->foreignIdFor(Reason::class)->constrained();
-            $table->string('title')->default('Не поставленo');
-            $table->text('text');
-            $table->string('status')->default('Новая');
+            $table->foreignIdFor(Problem::class)->constrained();
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('problems');
+        Schema::dropIfExists('user_problems');
     }
 };
