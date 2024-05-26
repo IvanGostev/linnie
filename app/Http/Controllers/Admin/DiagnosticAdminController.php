@@ -3,42 +3,49 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Problem;
-use App\Models\ProblemImage;
-use App\Models\Report;
-use App\Models\ReportImage;
+use App\Models\Diagnostic;
+use App\Models\Period;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class UserAdminController extends Controller
+class DiagnosticAdminController extends Controller
 {
 
     public function index()
     {
         $active = 'settings';
-        $users = User::all();
-        return view('admin.user.index', compact('active', 'users'));
+        $period = Period::latest()->first();
+        return view('admin.diagnostic.index', compact('active', 'period'));
     }
 
-    public function create()
+    public function create(User $user, Period $period)
     {
         $active = 'settings';
 
-        return view('admin.user.create', compact('active'));
+        return view('admin.diagnostic.create', compact('active', 'user', 'period'));
+    }
+    public function show(Diagnostic $diagnostic)
+    {
+        $active = 'settings';
+
+        return view('admin.diagnostic.show', compact('active', 'diagnostic'));
     }
 
-
-    public function store(Request $request)
+    public function store(User $user, Period $period, Request $request)
     {
+
         $data = $request->all();
-        if (isset($data['img'])) {
-            $data['img'] = Storage::disk('public')->put('/images', $data['img']);
+        foreach ($data as &$element) {
+            if ($element == 'on') {
+                $element = 1;
+            }
         }
-        $data['password'] = Hash::make($data['password']);
-        User::create($data);
-        return redirect()->route('admin.user.index');
+        $data['user_id'] = $user->id;
+        $data['period_id'] = $period->id;
+        Diagnostic::create($data);
+        return redirect()->route('admin.diagnostic.index');
     }
 
 
@@ -66,10 +73,9 @@ class UserAdminController extends Controller
         return redirect()->route('admin.user.index');
     }
 
-    public function delete(User $user)
+    public function delete(Diagnostic $diagnostic)
     {
-
-        $user->delete();
-        return redirect()->route('admin.index');
+        $diagnostic->delete();
+        return back();
     }
 }

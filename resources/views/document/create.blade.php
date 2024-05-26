@@ -62,7 +62,7 @@
         }
 
         .gpreview-img img {
-            width: 180px;
+            width: 100px;
             height: 100%;
             display: block;
 
@@ -150,7 +150,10 @@
                                     <label for="exampleInputEmail1">Основная часть</label>
                                     <textarea name="text" class="form-control" rows="20"></textarea>
                                 </div>
-
+<div class="form-group">
+    <input style="display: none" name="files[]" type="file" id="files"
+           multiple>
+</div>
                             </div>
 
                             <!-- /.card-body -->
@@ -233,9 +236,6 @@
                 upload.style.display = 'inline' // показываем кнопку
 
                 files.forEach(file => {
-                    if (!file.type.match('image')) {// проверяем что файл типа картинка
-                        return
-                    }
 
                     const reader = new FileReader(); // объект для чтения файлов в браузере
 
@@ -243,15 +243,72 @@
                         // console.log(ev.target.result) // как только мы его считаем выполняем console.log()
                         // input.insertAdjacentHTML('afterend', `<img src="${ev.target.result}">`)
                         const src = ev.target.result
-                        preview.insertAdjacentHTML('afterbegin', `
+                        let exel = `
                     <div class="gpreview-img">
-                        <img src="${src}" alt="${file.name}">
+             <img src="/fileimg/excel.svg" alt=""  >
                         <div class="gpreview-info">
                             <span>${file.name} </span>
-                            ${formatBytes(file.size)}
                         </div>
                     </div>
-                `) // afterbegin - располагаем внутри
+                `;
+                        let word = `
+                    <div class="gpreview-img">
+             <img src="/fileimg/word.svg" alt=""  >
+                        <div class="gpreview-info">
+                            <span>${file.name} </span>
+                        </div>
+                    </div>
+                `;
+                        let powerpoint = `
+                    <div class="gpreview-img">
+             <img src="/fileimg/powerpoint.svg" alt=""  >
+                        <div class="gpreview-info">
+                            <span>${file.name} </span>
+                        </div>
+                    </div>
+                `;
+                        let pdf = `
+                    <div class="gpreview-img">
+             <img src="/fileimg/pdf.svg" alt=""  >
+                        <div class="gpreview-info">
+                            <span>${file.name} </span>
+                        </div>
+                    </div>
+                `;
+                      let resType = `
+                    <div class="gpreview-img">
+             <img src="/fileimg/text.svg" alt=""  >
+                        <div class="gpreview-info">
+                            <span>${file.name} </span>
+                        </div>
+                    </div>
+                `;
+                        switch (file.name.split('.')[1]) {
+                            case 'xls':
+                                resType = exel;
+                                break;
+                            case 'xlsx':
+                                resType = exel;
+                                break;
+                            case 'doc':
+                                resType = word;
+                                break;
+                            case 'docx':
+                                resType = word;
+                                break;
+                            case 'ppt':
+                                resType = powerpoint;
+                                break;
+                            case 'pptx':
+                                resType = powerpoint;
+                                break;
+                            case 'pdf':
+                                resType = pdf;
+                                break;
+
+
+                        }
+                        preview.insertAdjacentHTML('afterbegin', resType) // afterbegin - располагаем внутри
                     }
 
                     reader.readAsDataURL(file) // асинхронная (не знаем когда выполниться)
@@ -278,9 +335,9 @@
         }
 
 
-        upload("#images", {
+        upload("#files", {
             multi: true, // если true то можем загружать несколько файлов
-            // accept: ['.png', '.jpg', '.gif']
+            // accept: ['.txt', '.zip', '.gif']
         })
     </script>
 @endsection

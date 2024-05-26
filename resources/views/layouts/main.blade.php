@@ -28,12 +28,14 @@
     </div>
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-dark" style="margin-left: 0!important; display: flex!important;  font-size: 14px!important;" >
-        <ul class="navbar-nav">
+    <nav class="main-header navbar navbar-expand navbar-dark" style="margin-left: 0!important; display: flex!important;  font-size: 14px!important; justify-content: space-between" >
+        <ul class="navbar-nav navbar-nav-f">
             @if($active == 'problem')
+                @if(auth()->user()->role != 2)
             <li class="nav-item d-sm-inline-block pr-1" >
                 <a class="btn btn-dark btn-block" href="{{route('problem.create')}}" >Создать заявку</a>
             </li>
+                @endif
                 @if(auth()->user()->role == 2)
             <li class="nav-item d-sm-inline-block pr-1" >
                 <a href="{{route('problem.completed')}}" class="btn btn-dark btn-block" >Завершенные заявки</a>
@@ -45,25 +47,32 @@
                 <a href="{{route('document.create')}}" class="btn btn-dark btn-block" >Создать документ</a>
             </li>
                 @endif
+                @if(auth()->user()->role > 1)
+                    <li class="nav-item d-sm-inline-block pr-1" >
+                        <a href="{{route('userdocument.index')}}" class="btn btn-dark btn-block">Мастера</a>
+                    </li>
+                @endif
+
+
         </ul>
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ">
             <!-- Navbar Search -->
 
             <li class="nav-item">
                 <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                     <i class="fas fa-search"></i>
                 </a>
-                <div class="navbar-search-block">
+                <div class="navbar-search-block" style="width: 318px; right: 1px!important;">
                     <form class="form-inline" action="{{route('problem.search')}}">
-                        <div class="input-group input-group-sm">
-                            <input  value="{{isset(request()->search) ? request()->search : ''}}"  name="search" class="form-control form-control-navbar" type="search" placeholder="Поиск"
+                        <div class="input-group input-group-sm" >
+                            <input  value="{{isset(request()->search) ? request()->search : ''}}"  name="search" class="form-control form-control-navbar searchheaderbox" type="search" placeholder="Поиск"
                                    aria-label="Search "  style="border-radius: 45px!important; border-top-right-radius: 0!important;
-    border-bottom-right-radius: 0!important;">
-                            <div class="input-group-append">
+    border-bottom-right-radius: 0!important; width: 150px; " >
+                            <div class="input-group-append " style="right: 2px!important;">
                                 <button class="btn btn-navbar" type="submit">
                                     <i class="fas fa-search"></i>
                                 </button>
-                                <button class="btn btn-navbar" type="button" data-widget="navbar-search" style="border-radius: 45px!important; border-top-left-radius: 0!important;
+                                <button class="btn btn-navbar" type="button" data-widget="navbar-search"  style="border-radius: 45px!important; border-top-left-radius: 0!important;
                                 border-bottom-left-radius: 0!important;">
                                     <i class="fas fa-times"></i>
                                 </button>
@@ -102,13 +111,12 @@
 {{--            </li>--}}
 
         </ul>
-
     </nav>
 
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper" style="margin-left: 0!important;">
-<br>
+{{--<br>--}}
         @yield('content')
 
     </div>
@@ -133,139 +141,162 @@
                     <div class="hoverindicator"></div>
                     <ion-icon name="person"></ion-icon>
                 </a>
-                @if(auth()->user()->role == 2) @endif
+                @if(auth()->user()->role == 2)
                 <a href="{{route('admin.index')}}" class="navitem-newmenu {{$active == 'settings' ? 'active' : ''}}" onclick="select(this)" data-clr="#f0e4fa">
                     <div class="indicator"></div>
                     <div class="hoverindicator"></div>
                     <ion-icon name="cog"></ion-icon>
                 </a>
+                @endif
+
             </div>
         </div>
 
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     </footer>
-    <style>
-        body {
-            --activeclr: white;
-        }
-
-        @property --activeclr {
-            syntax: "<color>";
-            initial-value: #e4ecfa;
-            inherits: true;
-        }
-
-        .wrapper-newmenu {
-            overflow: hidden;
-            width: 22rem;
-            background: var(--activeclr);
-        }
-        .navbar-newmenu {
-            display: flex;
-            justify-content: space-between;
-            height: 4.5rem;
-            background: #343a40;
-            padding: 0 0.75rem;
-            transition: padding 300ms ease;
-        }
-        .navbar-newmenu:has(.navsearch.active) {
-            padding: 0 0.75rem;
-        }
-
-        .navitem-newmenu {
-            position: relative;
-            display: grid;
-            place-content: center;
-            color: #fff;
-            width: 4.5rem;
-            text-align: center;
-            color: white;
-            font-size: 1.5rem;
-            transition: width 300ms ease, flex-grow 300ms ease;
-        }
-        .navbar-newmenu:has(.navsearch.active) .navitem {
-            width: 3rem;
-        }
-
-        .navitem-newmenu:hover {
-            color: gray!important;
-        }
-
-        .hoverindicator {
-            position: absolute;
-            width: 2.5rem;
-            inset: 50% auto auto 50%;
-            transform: translate(-50%, -50%);
-            background: var(--activeclr);
-            opacity: 0;
-            border-radius: 0.5rem;
-            height: 0.25rem;
-            inset: auto auto -0.25rem 50%;
-            transition: inset 300ms ease, opacity 300ms ease;
-        }
-        @media (hover: hover) {
-            .navitem-newmenu:not(.active):hover .hoverindicator,
-            .navsearch:not(.active):hover .searchbox {
-                border-radius: 1.25rem;
-                height: 2.5rem;
-                opacity: 1;
-                transition: opacity 150ms ease;
-            }
-        }
-
-        .active .hoverindicator {
-            opacity: 1;
-            border-radius: 0.5rem;
-            height: 0.25rem;
-            inset: auto auto 0.25rem 50%;
-            transition: inset 300ms ease, height 300ms ease, border-radius 300ms ease;
-        }
 
 
-
-        .navsearch.active {
-            flex-grow: 1;
-        }
-        .searchbox {
-            position: absolute;
-            inset: 1rem;
-            background: var(--activeclr);
-            border-radius: 1.25rem;
-            opacity: 0;
-            transition: inset 300ms ease, padding 300ms ease, color 100ms ease, opacity 300ms ease;
-            -webkit-appearance: none;
-            border: none;
-            padding: 0 1rem 0 1rem;
-            font-size: 1rem;
-            color: transparent;
-        }
-        .active .searchbox {
-            inset: 1rem 0.25rem;
-            height: 2.5rem;
-            border-radius: 1.25rem;
-            padding: 0 2.5rem 0 1rem;
-            opacity: 1;
-            color: black;
-            transition: inset 300ms ease, padding 300ms ease, color 200ms ease 50ms, opacity 300ms ease;
-        }
-
-
-        .searchicon {
-            position: absolute;
-            inset: 0 0 0 auto;
-            width: 4.5rem;
-            display: grid;
-            place-content: center;
-            transition: width 300ms ease;
-        }
-
-        .active .searchicon {
-            width: 3rem;
-        }
-    </style>
 </div>
 
+<style>
+    @media (max-width: 800px) {
+        .searchheaderbox {
+            max-width: 100%!important;
+        }
+        .navbar-search-block {
+            width: 100%!important;
+        }
+
+        /*.navbar-nav-f li {*/
+        /*    display: none;*/
+        /*}*/
+        .nonle {
+            display: none!important;
+        }
+
+    }
+
+    body {
+        --activeclr: white;
+    }
+
+    @property --activeclr {
+        syntax: "<color>";
+        initial-value: #e4ecfa;
+        inherits: true;
+    }
+
+    .wrapper-newmenu {
+        overflow: hidden;
+        width: 22rem;
+        background: var(--activeclr);
+    }
+    .navbar-newmenu {
+        display: flex;
+        justify-content: space-between;
+        height: 4.5rem;
+        background: #343a40;
+        padding: 0 0.75rem;
+        transition: padding 300ms ease;
+    }
+    .navbar-newmenu:has(.navsearch.active) {
+        padding: 0 0.75rem;
+    }
+
+    .navitem-newmenu {
+        position: relative;
+        display: grid;
+        place-content: center;
+        color: #fff;
+        width: 4.5rem;
+        text-align: center;
+        color: white;
+        font-size: 1.5rem;
+        transition: width 300ms ease, flex-grow 300ms ease;
+    }
+    .navbar-newmenu:has(.navsearch.active) .navitem {
+        width: 3rem;
+    }
+
+    .navitem-newmenu:hover {
+        color: gray!important;
+    }
+
+    .hoverindicator {
+        position: absolute;
+        width: 2.5rem;
+        inset: 50% auto auto 50%;
+        transform: translate(-50%, -50%);
+        background: var(--activeclr);
+        opacity: 0;
+        border-radius: 0.5rem;
+        height: 0.25rem;
+        inset: auto auto -0.25rem 50%;
+        transition: inset 300ms ease, opacity 300ms ease;
+    }
+    @media (hover: hover) {
+        .navitem-newmenu:not(.active):hover .hoverindicator,
+        .navsearch:not(.active):hover .searchbox {
+            border-radius: 1.25rem;
+            height: 2.5rem;
+            opacity: 1;
+            transition: opacity 150ms ease;
+        }
+    }
+
+    .active .hoverindicator {
+        opacity: 1;
+        border-radius: 0.5rem;
+        height: 0.25rem;
+        inset: auto auto 0.25rem 50%;
+        transition: inset 300ms ease, height 300ms ease, border-radius 300ms ease;
+    }
+
+
+
+    .navsearch.active {
+        flex-grow: 1;
+    }
+    .searchbox {
+        position: absolute;
+        inset: 1rem;
+        background: var(--activeclr);
+        border-radius: 1.25rem;
+        opacity: 0;
+        transition: inset 300ms ease, padding 300ms ease, color 100ms ease, opacity 300ms ease;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0 1rem 0 1rem;
+        font-size: 1rem;
+        color: transparent;
+    }
+    .active .searchbox {
+        inset: 1rem 0.25rem;
+        height: 2.5rem;
+        border-radius: 1.25rem;
+        padding: 0 2.5rem 0 1rem;
+        opacity: 1;
+        color: black;
+        transition: inset 300ms ease, padding 300ms ease, color 200ms ease 50ms, opacity 300ms ease;
+    }
+
+
+    .searchicon {
+        position: absolute;
+        inset: 0 0 0 auto;
+        width: 4.5rem;
+        display: grid;
+        place-content: center;
+        transition: width 300ms ease;
+    }
+
+    .active .searchicon {
+        width: 3rem;
+    }
+    .navbar-search-block {
+        left: auto;
+</style>
 
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
@@ -288,5 +319,11 @@
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('dist/js/pages/dashboard2.js')}}"></script>
+<script>
+    $('[data-widget="navbar-search"]').click(function () {
+        console.log(11);
+        $('.navbar-nav-f li').toggleClass('nonle')
+    })
+</script>
 </body>
 </html>

@@ -161,7 +161,7 @@
                                                 <input class="form-control" type="password" name="password" id="inputName"
                                                        placeholder="Пароль">
                                             </div>
-                                        </div>
+                                        </div>х
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-2 col-form-label">Роль</label>
                                             <div class="col-sm-10">

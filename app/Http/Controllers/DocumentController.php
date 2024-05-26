@@ -33,17 +33,18 @@ class DocumentController extends Controller
     {
 
         $data = $request->all();
-        if (isset($data['images'])) {
-            $images = $data['images'];
+        if (isset($data['files'])) {
+            $files = $data['files'];
         }
-        unset($data['images']);
+        unset($data['files']);
         $document = Document::create($data);
-//        if (isset($images)) {
-//            foreach ($images as $image) {
-//                $image = Storage::disk('public')->put('/images', $image);
-//                DocumentImage::create(['src' => $image, 'document_id' => $document->id]);
-//            }
-//        }
+        if (isset($files)) {
+            foreach ($files as $file) {
+                $title = $file->getClientOriginalName();
+                $file = Storage::disk('public')->put('/files', $file);
+                DocumentFile::create(['src' => $file, 'document_id' => $document->id, 'title' => $title]);
+            }
+        }
 
         return redirect()->route('document.index');
     }
@@ -58,27 +59,14 @@ class DocumentController extends Controller
         $active = '0';
         return view('document.show', compact('active', 'document'));
     }
-    public function createFile(Document $document)
+
+    public function delete(Document $document)
     {
-        return view('document.file', compact('document'));
-    }
-    public function storeFile(Document $document, Request $request)
-    {
-        $data['src'] = $request->src;
-        $data['title'] = $request->title;
-        if(isset($data['src']))  {
-            $data['src'] = Storage::disk('public')->put('/images', $data['src']);
+        $files = DocumentFile::where('document_id', $document->id)->get();
+        foreach ($files as $file) {
+            $file->delete();
         }
-        $data['document_id'] = $document->id;
-        DocumentFile::create($data);
-        return redirect()->route('document.edit', $document->id);
-    }
-
-
-    public function deleteFile(DocumentFile $file)
-    {
-        $file->delete();
+        $document->delete();
         return back();
     }
-
 }

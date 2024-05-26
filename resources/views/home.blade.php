@@ -82,27 +82,35 @@
                         <div class="card-body" style="display: none">
                             {{$problem->text}}
                             <div style="display: flex; justify-content:space-between;">
-{{--                                @if(auth()->user()->role > 0 and !($problem->reportCount()))--}}
-{{--                                    <a href={{route('report.create', $problem->id)}}><i class="fas fa-file-alt"></i>Написать--}}
-{{--                                        отчет</a>--}}
-{{--                                @endif--}}
-{{--                                @if(auth()->user()->role > 1 and $problem->reportCount())--}}
-{{--                                    <a href={{route('report.show', $problem->report()->id)}}><i--}}
-{{--                                            class="fas fa-file-alt"></i>Посмотреть--}}
-{{--                                        отчет</a>--}}
-{{--                                @endif--}}
+                                {{--                                @if(auth()->user()->role > 0 and !($problem->reportCount()))--}}
+                                {{--                                    <a href={{route('report.create', $problem->id)}}><i class="fas fa-file-alt"></i>Написать--}}
+                                {{--                                        отчет</a>--}}
+                                {{--                                @endif--}}
+                                {{--                                @if(auth()->user()->role > 1 and $problem->reportCount())--}}
+                                {{--                                    <a href={{route('report.show', $problem->report()->id)}}><i--}}
+                                {{--                                            class="fas fa-file-alt"></i>Посмотреть--}}
+                                {{--                                        отчет</a>--}}
+                                {{--                                @endif--}}
                                 @if(auth()->user()->role == 1)
-                                    <a class="btn btn-primary btn-block mr-2" href="{{route('problem.edit', $problem->id)}}"><i
-                                            class="fa-solid fa-pen-to-square"></i>Взять в работу</a>
+                                    <form action="{{route('problem.work', $problem->id)}}" enctype="multipart/form-data"
+                                          method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary btn-block mr-2"><i
+                                                class="fa-solid fa-pen-to-square"></i>Взять в работу
+                                        </button>
+                                    </form>
                                 @endif
                                 @if($problem->user_id == auth()->user()->id || auth()->user()->role == 2)
-                                    <form action="{{route('problem.delete', $problem->id)}}" method="post">
+                                    <form action="{{route('problem.delete', $problem->id)}}" method="post" class="mr-2">
                                         @csrf
                                         @method('delete')
-                                        <button class="btn btn-danger btn-block" ><i
+                                        <button class="btn btn-danger btn-block "><i
                                                 class="fa-solid fa-trash"></i> Удалить
                                         </button>
                                     </form>
+                                @endif
+                                @if(auth()->user()->role == 2)
+                                        <a href="{{route('problem.edit', $problem->id)}}" class="btn btn-primary btn-block"><i class="fas fa-edit"></i> <br> Редактировать</a>
                                 @endif
                             </div>
 

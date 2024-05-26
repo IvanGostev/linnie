@@ -62,7 +62,7 @@
         }
 
         .gpreview-img img {
-            width: 180px;
+            width: 100px;
             height: 100%;
             display: block;
 
@@ -122,85 +122,70 @@
     <section class="content-header">
     </section>
     <section class="content">
-
         <div class="container-fluid">
-            <form action="{{route('problem.update', $problem->id)}}" enctype="multipart/form-data" method="post">
-                @csrf
-                @method('patch')
-                <div class="row">
-                    <!-- left column -->
-                    <div class="col-md-12">
-                        <!-- general form elements -->
-                        <div class="card card-secondary">
-                            <div class="card-header">
-                                <h3 class="card-title">Форма редактирования заявки</h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <!-- form start -->
+            <div class="row">
 
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Причина</label>
-                                    <select name="reason_id" class="form-control">
-                                        @foreach($reasons as $reason)
-                                            <option {{$problem->reason_id == $reason->id ? 'selected' : ''}} value="{{$reason->id}}">{{$reason->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-{{--                                @if(auth()->user()->role == 2)--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="exampleInputEmail1">Статус</label>--}}
-{{--                                    <select name="status" class="form-control">--}}
-{{--                                        <option {{$problem->status == 'Новая' ? 'selected' : ''}} value="Новая">Новая</option>--}}
-{{--                                        <option {{$problem->status == 'В работе' ? 'selected' : ''}} value="В работе">В работе</option>--}}
-{{--                                        <option {{$problem->status == 'Завершено' ? 'selected' : ''}} value="Завершено">Завершено</option>--}}
-{{--                                        <option  {{$problem->status == 'Более 24 часов' ? 'selected' : ''}} value="Более 24 часов">Более 24 часов</option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                                @endif--}}
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Примечание</label>
-                                    <textarea name="text" class="form-control" rows="15">{{$problem->text}}</textarea>
-                                </div>
-                                <div class="card card-success">
-                                    {{--                                        <div class="card-header">--}}
-                                    {{--                                            <h3 class="card-title">Фотографии</h3>--}}
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="card">
 
-                                    {{--                                            <div class="card-tools">--}}
-                                    {{--                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"--}}
-                                    {{--                                                        title="Collapse">--}}
-                                    {{--                                                    <i class="fas fa-minus"></i>--}}
-                                    {{--                                                </button>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                        </div>--}}
-                                    <div class="card-body">
-                                        <div class="gpreview gpreview-demo">
-                                            @foreach($problem->images() as $image)
-                                                <div class="gpreview-img">
-                                                    <img src="{{asset('storage/' . $image->src)}}">
-                                                </div>
-                                            @endforeach
+                        <div class="card-body">
+                            <h5>{{$user->name}}</h5>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Файлы</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($documents as $document)
+
+                                    <tr>
+                                        <td>     <a download="{{$document->title}}" class="pr-3" href="{{ asset('storage/' . $document->src) }}">{{$document->title}}</a></td>
+                                        <td class="text-right align-middle">
+                                            <form action="{{route('userdocument.delete', $document->id)}}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <button  type="submit" class="btn btn-danger">Открепить</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                            <div class="tab-content">
+
+                                <div class="active tab-pane" id="settings">
+                                    <form class="form-horizontal" method="post" action="{{route('userdocument.update', $user->id)}}" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('patch')
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-2 col-form-label">Добавить файлы</label>
+                                            <div class="col-sm-10">
+                                                <input style="display: none" name="files[]" type="file" id="files"
+                                                       multiple>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="submit" class="btn btn-success">Прикрепить</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-
+                                <!-- /.tab-pane -->
                             </div>
-
-                            <!-- /.card-body -->
-
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-secondary">Изменить</button>
-                            </div>
-
-                        </div>
-
-
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
                     </div>
-
+                    <!-- /.card -->
                 </div>
-            </form>
-
-        </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
     </section>
     <script>
         function formatBytes(bytes, decimals = 2) {
@@ -239,7 +224,7 @@
             // open.textContent = 'Открыть' // текст кнопки
             // после создания функции element переписали создание элементов
             const preview = element('div', ['gpreview'])
-            const open = element('a', ['gbtn'], 'Выбрать фотографии')
+            const open = element('a', ['gbtn'], 'Выбрать файлы')
             const upload = element('a', ['gbtn', 'gprimary', 'none'], 'Загрузить')
             upload.style.display = 'none'; // скрываем копку
 
@@ -254,10 +239,7 @@
             input.insertAdjacentElement('afterend', open) // размещаем объект после input
 
 
-            const triggerInput = () => {
-                document.querySelector('.gpreview-demo').style.display = 'none'
-                input.click() // нажимаем на input
-            }
+            const triggerInput = () => input.click() // нажимаем на input
 
             const changeHandler = event => {
 
@@ -270,9 +252,6 @@
                 upload.style.display = 'inline' // показываем кнопку
 
                 files.forEach(file => {
-                    if (!file.type.match('image')) {// проверяем что файл типа картинка
-                        return
-                    }
 
                     const reader = new FileReader(); // объект для чтения файлов в браузере
 
@@ -280,15 +259,72 @@
                         // console.log(ev.target.result) // как только мы его считаем выполняем console.log()
                         // input.insertAdjacentHTML('afterend', `<img src="${ev.target.result}">`)
                         const src = ev.target.result
-                        preview.insertAdjacentHTML('afterbegin', `
+                        let exel = `
                     <div class="gpreview-img">
-                        <img src="${src}" alt="${file.name}">
+             <img src="/fileimg/excel.svg" alt=""  >
                         <div class="gpreview-info">
                             <span>${file.name} </span>
-                            ${formatBytes(file.size)}
                         </div>
                     </div>
-                `) // afterbegin - располагаем внутри
+                `;
+                        let word = `
+                    <div class="gpreview-img">
+             <img src="/fileimg/word.svg" alt=""  >
+                        <div class="gpreview-info">
+                            <span>${file.name} </span>
+                        </div>
+                    </div>
+                `;
+                        let powerpoint = `
+                    <div class="gpreview-img">
+             <img src="/fileimg/powerpoint.svg" alt=""  >
+                        <div class="gpreview-info">
+                            <span>${file.name} </span>
+                        </div>
+                    </div>
+                `;
+                        let pdf = `
+                    <div class="gpreview-img">
+             <img src="/fileimg/pdf.svg" alt=""  >
+                        <div class="gpreview-info">
+                            <span>${file.name} </span>
+                        </div>
+                    </div>
+                `;
+                        let resType = `
+                    <div class="gpreview-img">
+             <img src="/fileimg/text.svg" alt=""  >
+                        <div class="gpreview-info">
+                            <span>${file.name} </span>
+                        </div>
+                    </div>
+                `;
+                        switch (file.name.split('.')[1]) {
+                            case 'xls':
+                                resType = exel;
+                                break;
+                            case 'xlsx':
+                                resType = exel;
+                                break;
+                            case 'doc':
+                                resType = word;
+                                break;
+                            case 'docx':
+                                resType = word;
+                                break;
+                            case 'ppt':
+                                resType = powerpoint;
+                                break;
+                            case 'pptx':
+                                resType = powerpoint;
+                                break;
+                            case 'pdf':
+                                resType = pdf;
+                                break;
+
+
+                        }
+                        preview.insertAdjacentHTML('afterbegin', resType) // afterbegin - располагаем внутри
                     }
 
                     reader.readAsDataURL(file) // асинхронная (не знаем когда выполниться)
@@ -315,9 +351,9 @@
         }
 
 
-        upload("#images", {
+        upload("#files", {
             multi: true, // если true то можем загружать несколько файлов
-            accept: ['.png', '.jpg', '.gif']
+            // accept: ['.txt', '.zip', '.gif']
         })
     </script>
 @endsection

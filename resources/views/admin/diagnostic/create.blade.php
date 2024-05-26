@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+
     <style>
 
 
@@ -120,62 +121,106 @@
 
     </style>
     <section class="content-header">
+
     </section>
     <section class="content">
         <div class="container-fluid">
+
             <div class="row">
-                <div class="col-md-3">
 
-
-                    <div class="card card-primary card-outline">
-                        <div class="card-body box-profile">
-                            <div class="text-center" >
-                                <img class="profile-user-img img-fluid img-circle"
-                                     src="{{ asset('storage/' . $user->img) }}" style="max-width: 107px!important; max-height: 107px!important"
-                                     alt="User profile picture" width="110" height="110">
-                            </div>
-
-                            <h3 class="profile-username text-center">{{$user->name}}</h3>
-
-                            <form action="{{route('logout')}}" method="post" >
-                                @csrf
-                                <button type="submit" class="btn btn-primary btn-block"><b>Выйти</b></button>
-                            </form>
-
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-
-                </div>
                 <!-- /.col -->
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="card">
-
+                        <div class="card-header">
+                            <h5>Диагностика по {{$user->name}} период от {{$period->created_at}}</h5>
+                        </div>
                         <div class="card-body">
                             <div class="tab-content">
 
 
                                 <div class="active tab-pane" id="settings">
-                                    <form class="form-horizontal" method="post" action="{{route('profile.update', $user->id)}}" enctype="multipart/form-data">
+                                    <form class="form-horizontal" method="post" action="{{route('admin.diagnostic.store', ['user' => $user->id, 'period' => $period->id])}}" enctype="multipart/form-data">
                                         @csrf
-                                        @method('patch')
-                                        <div class="form-group row">
-                                            <label for="inputName" class="col-sm-2 col-form-label">Поменять фотографию</label>
-                                            <div class="col-sm-10">
-                                                <input style="display: none" name="img" type="file" id="images">
-                                            </div>
+                                        <div>
+                                            <h6>СКПБ:</h6>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputName" class="col-sm-2 col-form-label">Имя</label>
-                                            <div class="col-sm-10">
-                                                <input class="form-control" name="name" value="{{auth()->user()->name}}" id="inputName"
+                                            <label for="inputName" class="col-sm-11 col-form-label">Проверка состояния и целостности датчиков, индикаторов и кабельных соединений. Наличие резервного кабеля для сенсора нагрузки и инструкции пользователя СКПБ</label>
+                                            <div class="col-sm-1 form-bord-ic">
+                                                <input width="20px"  class="form-check-input form-check-input-f" type="checkbox" name="skpb_first" id="inputName"
                                                        placeholder="Имя">
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-11 col-form-label">Проверка состояния GPRS, блока памяти, блокировок, газоанализатора и звуковой сигнализации</label>
+                                            <div class="col-sm-1 form-bord-ic">
+                                                <input class="form-check-input form-check-input-f" type="checkbox" name="skpb_second" id="inputName"
+                                                       placeholder="Имя">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-11 col-form-label">Настройка прибора СКПБ (при необходимости)</label>
+                                            <div class="col-sm-1 form-bord-ic">
+                                                <input class="form-check-input form-check-input-f" type="checkbox" name="skpb_third" id="inputName"
+                                                       placeholder="Имя">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div>
+                                            <h6>СТВ:</h6>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-11 col-form-label">Внешний осмотр технического состояния коммутационного шкафа, видеорегистратора, маршрутизатора, монитора, источников питания, видеокамеры, целостности кабелей и разъемов</label>
+                                            <div class="col-sm-1 form-bord-ic">
+                                                <input class="form-check-input form-check-input-f" type="checkbox" name="stv_first" id="inputName"
+                                                       placeholder="Имя">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-11 col-form-label">Проверка видеоархива, даты и времени на видеорегистраторе</label>
+                                            <div class="col-sm-1 form-bord-ic">
+                                                <input class="form-check-input form-check-input-f" type="checkbox" name="stv_second" id="inputName"
+                                                       placeholder="Имя">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-11 col-form-label">Настройка системы технологического видеонаблюдения Заказчика в соответствии с его требованиями (при необходимости)</label>
+                                            <div class="col-sm-1 form-bord-ic">
+                                                <input class="form-check-input form-check-input-f" type="checkbox" name="stv_third" id="inputName"
+                                                       placeholder="Имя">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
 
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">В результате проведения работ по техническому обслуживанию СИСТЕМ выявлены следующие неисправности:</label>
+                                            <textarea name="malfunctions" class="form-control" rows="5"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Особое мнение:</label>
+                                            <textarea name="opinion" class="form-control" rows="5"></textarea>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-2 col-form-label">Представитель ООО "ВэллТех"</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control"  name="representative" value="{{$user->name}}" id="inputName"
+                                                       placeholder="Должность, ФИО">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-2 col-form-label">Представитель ООО "ЛИНИИ"</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" name="our_representative" value="{{auth()->user()->name}}" id="inputName"
+                                                       placeholder="Должность, ФИО">
+                                            </div>
+                                        </div>
                                         <div class="form-group row">
                                             <div class="offset-sm-2 col-sm-10">
-                                                <button type="submit" class="btn btn-danger">Изменить</button>
+                                                <button type="submit" class="btn btn-success">Создать</button>
                                             </div>
                                         </div>
                                     </form>
@@ -187,149 +232,19 @@
                     </div>
                     <!-- /.card -->
                 </div>
-                @if(auth()->user()->role == 1)
-                <div class="col-md-6">
-                    <div class="card card-secondary">
-                        <div class="card-header">
-                            <h3 class="card-title">Заявки в работе</h3>
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Причина</th>
-                                    <th>Дата</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($user->workProblems() as $problem)
-
-                                    <tr>
-                                        <td>{{$problem->reason()->title}}</td>
-                                        <td>{{$problem->created_at }}</td>
-                                        <td class="text-right align-middle">
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{{route('problem.edit',  $problem->id)}}" class="btn btn-success">Редактировать</a>
-                                            </div>
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{{route('report.create',  $problem->id)}}" class="btn btn-info">Написать отчет</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card card-secondary">
-                        <div class="card-header">
-                            <h3 class="card-title">Заявки завершеные</h3>
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Причина</th>
-                                    <th>Дата</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($user->completedProblems() as $problem)
-
-                                    <tr>
-                                        <td>{{$problem->reason()->title}}</td>
-                                        <td>{{$problem->created_at }}</td>
-                                        <td class="text-right align-middle">
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{{route('report.show',  $problem->id)}}" class="btn btn-info"><i
-                                                        class="fas fa-eye"></i>Посмотреть</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                </div>
-                @endif()
-                @if(auth()->user()->role == 0)
-                    <div class="col-md-12">
-                        <div class="card card-secondary">
-                            <div class="card-header">
-                                <h3 class="card-title">Отчеты по мои заявкам</h3>
-                            </div>
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Причина</th>
-                                        <th>Дата</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($user->myProblems() as $problem)
-
-                                        <tr>
-                                            <td>{{$problem->reason()->title}}</td>
-                                            <td>{{$problem->created_at }}</td>
-                                            <td class="text-right align-middle">
-                                                <div class="btn-group btn-group-sm">
-                                                    <a href="{{route('report.show',  $problem->id)}}" class="btn btn-info"><i
-                                                            class="fas fa-eye"></i>Посмотреть</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-
-                @endif()
-                @if(auth()->user()->role == 0)
-                    <div class="col-md-12">
-                        <div class="card card-secondary">
-                            <div class="card-header">
-                                <h3 class="card-title">Мои документы</h3>
-                            </div>
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Документ</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($user->documents() as $document)
-                                        <tr>
-                                            <td>   <a download="{{$document->title}}" href="{{ asset('storage/' . $document->src) }}">{{$document->title}}</a></td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-
-                @endif()
+                <!-- /.col -->
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
+    <style>
+        @media (max-width: 575px) {
+            .form-bord-ic {
+                margin-left: 22px!important;
+            }
+        }
+
+    </style>
     <script>
         function formatBytes(bytes, decimals = 2) {
             if (!+bytes) return '0 Bytes'

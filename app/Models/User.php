@@ -49,4 +49,13 @@ class User extends Authenticatable
     public function completedProblems() {
         return Problem::whereIn('id', $this->problemIds())->where('status', 'Завершено')->get();
     }
+    public function myProblems() {
+        return Problem::where('user_id', $this->id)->where('status', 'Завершено')->get();
+    }
+    public function documents() {
+        return UserDocument::where('user_id', $this->id)->get();
+    }
+    public function diagnostic($period_id) {
+        return Diagnostic::where('user_id', $this->id)->where('period_id', $period_id)->first();
+    }
 }

@@ -12,4 +12,9 @@ class Document extends Model
     public function files() {
         return DocumentFile::where('document_id', $this->id)->get();
     }
+    public function extension() {
+        return explode('.', DocumentFile::where('document_id', $this->id)->first()->src)[1];
+    }
 }
+
+

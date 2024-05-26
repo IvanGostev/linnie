@@ -1,13 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DiagnosticAdminController;
+use App\Http\Controllers\Admin\PeriodAdminController;
 use App\Http\Controllers\Admin\ReasonAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
-use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ProblemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserDocumentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -49,11 +51,12 @@ Route::middleware('auth')->group(function () {
             Route::post('/', 'store')->name('document.store');
             Route::get('/{document}/edit', 'edit')->name('document.edit');
             Route::get('/{document}/show', 'show')->name('document.show');
-            Route::prefix('files')->group(function () {
-                Route::get('/{document}', 'createFile')->name('document.file.create');
-                Route::post('/{document}', 'storeFile')->name('document.file.store');
-                Route::delete('/{file}', 'deleteFile')->name('document.file.delete');
-            });
+            Route::delete('/{document}/delete', 'delete')->name('document.delete');
+//            Route::prefix('files')->group(function () {
+//                Route::get('/{document}', 'createFile')->name('document.file.create');
+//                Route::post('/{document}', 'storeFile')->name('document.file.store');
+//                Route::delete('/{file}', 'deleteFile')->name('document.file.delete');
+//            });
         });
         Route::controller(ProfileController::class)->prefix('profile')->group(function () {
             Route::get('/{user}/edit', 'edit')->name('profile.edit');
@@ -77,8 +80,31 @@ Route::middleware('auth')->group(function () {
                 Route::patch('/{reason}/update', 'update')->name('admin.reason.update');
                 Route::delete('/{reason}', 'delete')->name('admin.reason.delete');
             });
+            Route::controller(DiagnosticAdminController::class)->prefix('diagnostics')->group(function () {
+                Route::get('/', 'index')->name('admin.diagnostic.index');
+                Route::get('/{user}/{period}/create', 'create')->name('admin.diagnostic.create');
+                Route::post('/{user}/{period}/store', 'store')->name('admin.diagnostic.store');
+                Route::get('/{diagnostic}/show', 'show')->name('admin.diagnostic.show');
+//                Route::get('/{reason}/edit', 'edit')->name('admin.reason.edit');
+//                Route::patch('/{reason}/update', 'update')->name('admin.reason.update');
+                Route::delete('/{diagnostic}', 'delete')->name('admin.diagnostic.delete');
+                Route::controller(PeriodAdminController::class)->prefix('periods')->group(function () {
+                    Route::get('/', 'index')->name('admin.diagnostic.period.index');
+                Route::get('/create', 'create')->name('admin.diagnostic.period.create');
+                    Route::get('/{period}/show', 'show')->name('admin.diagnostic.period.show');
+                Route::delete('/{period}', 'delete')->name('admin.diagnostic.period.delete');
+
+                });
+            });
         });
     });
+    Route::controller(UserDocumentController::class)->prefix('user-documents')->group(function () {
+        Route::get('/users', 'index')->name('userdocument.index');
+        Route::get('/{user}/edit', 'edit')->name('userdocument.edit');
+        Route::patch('/{user}/update', 'update')->name('userdocument.update');
+        Route::delete('/{document}/delete', 'delete')->name('userdocument.delete');
+    });
+
 });
 Auth::routes();
 

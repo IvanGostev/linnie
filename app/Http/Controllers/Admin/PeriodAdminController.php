@@ -3,46 +3,37 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Problem;
-use App\Models\ProblemImage;
-use App\Models\Report;
-use App\Models\ReportImage;
+use App\Models\Period;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class UserAdminController extends Controller
+class PeriodAdminController extends Controller
 {
 
     public function index()
     {
         $active = 'settings';
-        $users = User::all();
-        return view('admin.user.index', compact('active', 'users'));
+        $periods = Period::all();
+        return view('admin.diagnostic.period.index', compact('active', 'periods'));
     }
 
     public function create()
     {
         $active = 'settings';
-
-        return view('admin.user.create', compact('active'));
+        Period::create();
+        return back();
     }
 
 
-    public function store(Request $request)
+    public function show(Period $period)
     {
-        $data = $request->all();
-        if (isset($data['img'])) {
-            $data['img'] = Storage::disk('public')->put('/images', $data['img']);
-        }
-        $data['password'] = Hash::make($data['password']);
-        User::create($data);
-        return redirect()->route('admin.user.index');
+        $active = 'settings';
+        return view('admin.diagnostic.index', compact('active', 'period'));
+
     }
-
-
-    public function edit(User $user)
+        public function edit(User $user)
     {
         $active = 'settings';
 
@@ -66,10 +57,9 @@ class UserAdminController extends Controller
         return redirect()->route('admin.user.index');
     }
 
-    public function delete(User $user)
+    public function delete(Period $period)
     {
-
-        $user->delete();
-        return redirect()->route('admin.index');
+        $period->delete();
+        return back();
     }
 }

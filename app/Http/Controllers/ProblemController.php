@@ -6,6 +6,7 @@ use App\Models\Problem;
 use App\Models\ProblemImage;
 use App\Models\Reason;
 use App\Models\Report;
+use App\Models\User;
 use App\Models\UserProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -24,11 +25,20 @@ class ProblemController extends Controller
         return view('home', compact('problems', 'active'));
     }
 
-    public function completed()
+    public function completed(Request $request)
     {
-        $problems = Problem::where('status', '=', 'Завершено')->get();
+
         $active = 'problem';
-        return view('completed', compact('problems', 'active'));
+        $users = User::where('role', 1)->get();
+        if (isset($request->user_id)) {
+            $temp = Report::where('user_id', $request->user_id)->get('problem_id');
+            $problems = Problem::whereIn('id', $temp)->get();
+            $userActive = User::where('id', $request->user_id)->first();
+        } else {
+            $problems = Problem::where('status', '=', 'Завершено')->get();
+            $userActive = 0;
+        }
+        return view('completed', compact('problems', 'active', 'users', 'userActive'));
     }
 
     public function search(Request $request)

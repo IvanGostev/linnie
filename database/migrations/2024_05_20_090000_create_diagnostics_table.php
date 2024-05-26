@@ -25,7 +25,6 @@ return new class extends Migration
             $table->integer('skpb_first')->default(0);
             $table->integer('skpb_second')->default(0);
             $table->integer('skpb_third')->default(0);
-
             $table->integer('stv_first')->default(0);
             $table->integer('stv_second')->default(0);
             $table->integer('stv_third')->default(0);
