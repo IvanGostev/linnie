@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/{problem}/create', 'create')->name('report.create');
             Route::post('/{problem}/store', 'store')->name('report.store');
             Route::get('/{problem}/show', 'show')->name('report.show');
+            Route::get('/{problem}/pdf', 'pdf')->name('report.pdf');
 //            Route::get('/{report}/edit', 'edit')->name('report.edit');
 //            Route::patch('/{report}', 'update')->name('report.update');
         });
@@ -86,6 +87,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/{user}/{period}/create', 'create')->name('admin.diagnostic.create');
                 Route::post('/{user}/{period}/store', 'store')->name('admin.diagnostic.store');
                 Route::get('/{diagnostic}/show', 'show')->name('admin.diagnostic.show');
+                Route::get('/{diagnostic}/pdf', 'pdf')->name('admin.diagnostic.pdf');
 //                Route::get('/{reason}/edit', 'edit')->name('admin.reason.edit');
 //                Route::patch('/{reason}/update', 'update')->name('admin.reason.update');
                 Route::delete('/{diagnostic}', 'delete')->name('admin.diagnostic.delete');

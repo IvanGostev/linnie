@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Diagnostic;
 use App\Models\Period;
 use App\Models\User;
+
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -31,6 +33,14 @@ class DiagnosticAdminController extends Controller
         $active = 'settings';
 
         return view('admin.diagnostic.show', compact('active', 'diagnostic'));
+    }
+    public function pdf(Diagnostic $diagnostic)
+    {
+        $active = 'settings';
+        $diagnostic['user'] = $diagnostic->user()->toArray();
+        $diagnostic['period'] = $diagnostic->period()->toArray();
+        $pdf = PDF::loadView('admin.diagnostic.pdf', ['diagnostic' => $diagnostic->toArray()]);
+        return $pdf->download('diagnostic.pdf');
     }
 
     public function store(User $user, Period $period, Request $request)

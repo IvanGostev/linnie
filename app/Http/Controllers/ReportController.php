@@ -8,6 +8,7 @@ use App\Models\ProblemImage;
 use App\Models\Report;
 use App\Models\ReportImage;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -50,6 +51,14 @@ class ReportController extends Controller
     {
         $report = Report::where('problem_id', $problem->id)->first();
         return view('report.show', compact('report', 'problem'));
+    }
+    public function pdf(Problem $problem)
+    {
+        $report = Report::where('problem_id', $problem->id)->first();
+        $problem['reason'] = $problem->reason()->title;
+        $report = $report->toArray();
+        $pdf = PDF::loadView('report.pdf', ['report' => $report, 'problem' => $problem->toArray()]);
+        return $pdf->download('report.pdf');
     }
 
 }

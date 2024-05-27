@@ -240,6 +240,7 @@
                                     <th>Причина</th>
                                     <th>Дата</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -248,6 +249,11 @@
                                     <tr>
                                         <td>{{$problem->reason()->title}}</td>
                                         <td>{{$problem->created_at }}</td>
+                                        <td class="text-right align-middle">
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{{route('report.pdf',  $problem->id)}}" class="btn btn-info">PDF</a>
+                                            </div>
+                                        </td>
                                         <td class="text-right align-middle">
                                             <div class="btn-group btn-group-sm">
                                                 <a href="{{route('report.show',  $problem->id)}}" class="btn btn-info"><i
@@ -277,6 +283,7 @@
                                         <th>Причина</th>
                                         <th>Дата</th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -285,6 +292,11 @@
                                         <tr>
                                             <td>{{$problem->reason()->title}}</td>
                                             <td>{{$problem->created_at }}</td>
+                                            <td class="text-right align-middle">
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{{route('report.pdf',  $problem->id)}}" class="btn btn-info">PDF</a>
+                                                </div>
+                                            </td>
                                             <td class="text-right align-middle">
                                                 <div class="btn-group btn-group-sm">
                                                     <a href="{{route('report.show',  $problem->id)}}" class="btn btn-info"><i

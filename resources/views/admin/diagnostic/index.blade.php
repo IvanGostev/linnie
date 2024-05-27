@@ -38,10 +38,10 @@
                                                     Посмотреть
                                                 </a>
                                                 <br>
-{{--                                                <a href="{{route('admin.user.edit',  $user->id)}}"--}}
-{{--                                                   class="d-block btn btn-outline-secondary">--}}
-{{--                                                    Редактировать--}}
-{{--                                                </a>--}}
+                                                <a href="{{route('admin.diagnostic.pdf',  $user->diagnostic($period->id)->id)}}"
+                                                   class="d-block btn btn-secondary">
+                                                    PDF
+                                                </a>
                                             @else
                                                 <a href="{{route('admin.diagnostic.create',  ['user' => $user->id, 'period' => $period->id])}}"
                                                    class="d-block btn btn-secondary">

@@ -132,37 +132,32 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Диагностика по {{$user->name}} период от {{$period->created_at}}</h5>
+                            <h5>Диагностика по {{$diagnostic['user']['name']}} период от {{$diagnostic['period']['created_at']}}</h5>
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
 
 
                                 <div class="active tab-pane" id="settings">
-                                    <form class="form-horizontal" method="post" action="{{route('admin.diagnostic.store', ['user' => $user->id, 'period' => $period->id])}}" enctype="multipart/form-data">
-                                        @csrf
                                         <div>
                                             <h6>СКПБ:</h6>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-11 col-form-label">Проверка состояния и целостности датчиков, индикаторов и кабельных соединений. Наличие резервного кабеля для сенсора нагрузки и инструкции пользователя СКПБ</label>
                                             <div class="col-sm-1 form-bord-ic">
-                                                <input width="20px"  class="form-check-input form-check-input-f" type="checkbox" name="skpb_first" id="inputName"
-                                                       placeholder="Имя">
+                                                <span>{{$diagnostic['skpb_first'] == 1 ? 'Да' : 'Нет'}}</span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-11 col-form-label">Проверка состояния GPRS, блока памяти, блокировок, газоанализатора и звуковой сигнализации</label>
                                             <div class="col-sm-1 form-bord-ic">
-                                                <input class="form-check-input form-check-input-f" type="checkbox" name="skpb_second" id="inputName"
-                                                       placeholder="Имя">
+                                                <span>{{$diagnostic['skpb_second'] == 1 ? 'Да' : 'Нет'}}</span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-11 col-form-label">Настройка прибора СКПБ (при необходимости)</label>
                                             <div class="col-sm-1 form-bord-ic">
-                                                <input class="form-check-input form-check-input-f" type="checkbox" name="skpb_third" id="inputName"
-                                                       placeholder="Имя">
+                                                <span>{{$diagnostic['skpb_third'] == 1 ? 'Да' : 'Нет'}}</span>
                                             </div>
                                         </div>
                                         <br>
@@ -173,22 +168,19 @@
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-11 col-form-label">Внешний осмотр технического состояния коммутационного шкафа, видеорегистратора, маршрутизатора, монитора, источников питания, видеокамеры, целостности кабелей и разъемов</label>
                                             <div class="col-sm-1 form-bord-ic">
-                                                <input class="form-check-input form-check-input-f" type="checkbox" name="stv_first" id="inputName"
-                                                       placeholder="Имя">
+                                                <span>{{$diagnostic['stv_first'] == 1 ? 'Да' : 'Нет'}}</span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-11 col-form-label">Проверка видеоархива, даты и времени на видеорегистраторе</label>
                                             <div class="col-sm-1 form-bord-ic">
-                                                <input class="form-check-input form-check-input-f" type="checkbox" name="stv_second" id="inputName"
-                                                       placeholder="Имя">
+                                                <span>{{$diagnostic['stv_second'] == 1 ? 'Да' : 'Нет'}}</span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-11 col-form-label">Настройка системы технологического видеонаблюдения Заказчика в соответствии с его требованиями (при необходимости)</label>
                                             <div class="col-sm-1 form-bord-ic">
-                                                <input class="form-check-input form-check-input-f" type="checkbox" name="stv_third" id="inputName"
-                                                       placeholder="Имя">
+                                                <span>{{$diagnostic['stv_third'] == 1 ? 'Да' : 'Нет'}}</span>
                                             </div>
                                         </div>
                                         <br>
@@ -196,34 +188,32 @@
 
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">В результате проведения работ по техническому обслуживанию СИСТЕМ выявлены следующие неисправности:</label>
-                                            <textarea name="malfunctions" class="form-control" rows="5"></textarea>
+{{--                                            <textarea name="malfunctions" class="form-control" rows="5"></textarea>--}}
+                                            <p>{{$diagnostic['malfunctions']}}</p>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Особое мнение:</label>
-                                            <textarea name="opinion" class="form-control" rows="5"></textarea>
+{{--                                            <textarea name="opinion" class="form-control" rows="5"></textarea>--}}
+                                            <p>{{$diagnostic['opinion']}}</p>
                                         </div>
                                         <br>
                                         <br>
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-2 col-form-label">Представитель ООО "ВэллТех"</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control"  name="representative" id="inputName"
-                                                       placeholder="Должность, ФИО">
+{{--                                                <input class="form-control"  name="representative"  id="inputName"--}}
+{{--                                                       placeholder="Должность, ФИО">--}}
+                                                <p>{{$diagnostic['representative']}}</p>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-2 col-form-label">Представитель ООО "ЛИНИИ"</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" name="our_representative" value="{{auth()->user()->name}}" id="inputName"
-                                                       placeholder="Должность, ФИО">
+{{--                                                <input class="form-control" name="our_representative"  id="inputName"--}}
+{{--                                                       placeholder="Должность, ФИО">--}}
+                                                <p>{{$diagnostic['our_representative']}}</p>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <div class="offset-sm-2 col-sm-10">
-                                                <button type="submit" class="btn btn-success">Создать</button>
-                                            </div>
-                                        </div>
-                                    </form>
                                 </div>
                                 <!-- /.tab-pane -->
                             </div>
