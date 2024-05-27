@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PeriodAdminController;
 use App\Http\Controllers\Admin\ReasonAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProblemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
@@ -104,7 +105,10 @@ Route::middleware('auth')->group(function () {
         Route::patch('/{user}/update', 'update')->name('userdocument.update');
         Route::delete('/{document}/delete', 'delete')->name('userdocument.delete');
     });
-
+    Route::controller(NotificationController::class)->prefix('notifications')->group(function () {
+        Route::get('/', 'index')->name('notification.index');
+        Route::get('/readAll', 'readAll')->name('notification.readAll');
+    });
 });
 Auth::routes();
 

@@ -25,4 +25,7 @@ class Problem extends Model
         $temp = UserProblem::where('problem_id', $this->id)->first();
         return User::where('id', $temp->user_id)->first();
     }
+    public function userCreate() {
+        return User::where('id', $this->user_id)->first();
+    }
 }

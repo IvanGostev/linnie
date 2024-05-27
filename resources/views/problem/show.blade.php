@@ -178,7 +178,7 @@
                         <form action="{{route('problem.work', $problem->id)}}" enctype="multipart/form-data"
                               method="post">
                             @csrf
-                            @if(auth()->user()->role == 1)
+                            @if(auth()->user()->role == 1 and $problem->status == 'Новая')
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Взять в работу</button>
                                 </div>

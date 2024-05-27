@@ -136,7 +136,10 @@
                             </div>
 
                             <h3 class="profile-username text-center">{{$user->name}}</h3>
-
+                            @if(auth()->user()->role > 1)
+                                    <a href="{{route('userdocument.index')}}" class="btn btn-dark btn-block">Мастера</a>
+                                <br>
+                            @endif
                             <form action="{{route('logout')}}" method="post" >
                                 @csrf
                                 <button type="submit" class="btn btn-primary btn-block"><b>Выйти</b></button>
@@ -148,10 +151,10 @@
 
                 </div>
                 <!-- /.col -->
-                <div class="col-md-9">
-                    <div class="card">
+                <div class="col-md-9" style="height: auto">
+                    <div class="card" >
 
-                        <div class="card-body">
+                        <div class="card-body body-check" >
                             <div class="tab-content">
 
 
@@ -262,7 +265,7 @@
                 </div>
                 @endif()
                 @if(auth()->user()->role == 0)
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="card card-secondary">
                             <div class="card-header">
                                 <h3 class="card-title">Отчеты по мои заявкам</h3>
@@ -297,10 +300,7 @@
                             <!-- /.card-body -->
                         </div>
                     </div>
-
-                @endif()
-                @if(auth()->user()->role == 0)
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="card card-secondary">
                             <div class="card-header">
                                 <h3 class="card-title">Мои документы</h3>
@@ -330,6 +330,13 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
+    @if(auth()->user()->role > 1)
+        <style>
+            .body-check {
+             height: 287px!important;
+            }
+        </style>
+    @endif
     <script>
         function formatBytes(bytes, decimals = 2) {
             if (!+bytes) return '0 Bytes'

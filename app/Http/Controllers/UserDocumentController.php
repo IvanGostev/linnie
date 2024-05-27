@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use App\Models\DocumentFile;
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserDocument;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,11 +38,13 @@ class UserDocumentController extends Controller
                 UserDocument::create(['src' => $file, 'user_id' => $user->id, 'title' => $title]);
             }
         }
+        Notification::create(['user_id' => $user->id, 'type' => 'mydocuments']);
         return back();
     }
     public function delete(UserDocument $document)
     {
         $document->delete();
+        Notification::create(['user_id' => $document->user()->id, 'type' => 'mydocuments']);
         return back();
     }
 }

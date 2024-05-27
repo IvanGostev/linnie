@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Problem;
 use App\Models\ProblemImage;
 use App\Models\Reason;
@@ -43,7 +44,8 @@ class ProblemController extends Controller
 
     public function search(Request $request)
     {
-        $problems = Problem::where('status', '=', 'Завершено')->where('title', 'LIKE', '%' . $request->search . '%')
+        $problems = Problem::where('status', '=', 'Завершено')
+            ->where('id', 'LIKE', '%' . $request->search . '%')
             ->orWhere('text', 'LIKE', '%' . $request->search . '%')
             ->get();
         $active = 'problem';
@@ -91,6 +93,7 @@ class ProblemController extends Controller
         $problem->status = 'В работе';
         $problem->update();
         UserProblem::create(['user_id' => auth()->user()->id, 'problem_id' => $problem->id]);
+        Notification::create(['user_id' => $problem->userCreate()->id, 'problem_id' => $problem->id, 'type' => 'work', 'name' => auth()->user()->name]);
         return redirect()->route('profile.edit', auth()->user()->id);
     }
     public function update(Problem $problem, Request $request)

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use App\Models\DocumentFile;
 use App\Models\DocumentImage;
+use App\Models\Notification;
 use App\Models\Problem;
 use App\Models\ProblemImage;
 use App\Models\Report;
 use App\Models\ReportImage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpParser\Comment\Doc;
@@ -45,7 +47,10 @@ class DocumentController extends Controller
                 DocumentFile::create(['src' => $file, 'document_id' => $document->id, 'title' => $title]);
             }
         }
-
+        $users = User::all();
+        foreach ($users as $user) {
+            Notification::create(['user_id' => $user->id, 'type' => 'documents']);
+        }
         return redirect()->route('document.index');
     }
 

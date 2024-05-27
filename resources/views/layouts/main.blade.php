@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Линни</title>
+    <title>Линии</title>
     <meta {{!isset($active) ? $active = '0' : ''}}>
 
     <!-- Google Font: Source Sans Pro -->
@@ -23,56 +23,101 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-{{--        class="animation__wobble"--}}
-        <h3>Линни</h3>
+        {{--        class="animation__wobble"--}}
+        <h3>Линии</h3>
     </div>
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-dark" style="margin-left: 0!important; display: flex!important;  font-size: 14px!important; justify-content: space-between" >
-        <ul class="navbar-nav navbar-nav-f">
+    <nav class="main-header navbar navbar-expand navbar-dark" style="margin-left: 0!important; display: flex!important;  font-size: 14px!important; justify-content: space-between; flex-wrap: wrap;
+">
+        <ul class="navbar-nav navbar-nav-f align-items-start">
             @if($active == 'problem')
                 @if(auth()->user()->role != 2)
-            <li class="nav-item d-sm-inline-block pr-1" >
-                <a class="btn btn-dark btn-block" href="{{route('problem.create')}}" >Создать заявку</a>
-            </li>
-                @endif
-                @if(auth()->user()->role == 2)
-            <li class="nav-item d-sm-inline-block pr-1" >
-                <a href="{{route('problem.completed')}}" class="btn btn-dark btn-block" >Завершенные заявки</a>
-            </li>
-                @endif
-            @endif
-                @if($active == 'document' and auth()->user()->role == 2 )
-            <li class="nav-item d-sm-inline-block pr-1">
-                <a href="{{route('document.create')}}" class="btn btn-dark btn-block" >Создать документ</a>
-            </li>
-                @endif
-                @if(auth()->user()->role > 1)
-                    <li class="nav-item d-sm-inline-block pr-1" >
-                        <a href="{{route('userdocument.index')}}" class="btn btn-dark btn-block">Мастера</a>
+                    <li class="nav-item d-sm-inline-block pr-1">
+                        <a class="btn btn-dark btn-block" href="{{route('problem.create')}}">Создать заявку</a>
                     </li>
                 @endif
+                @if(auth()->user()->role == 2)
+                    <li class="nav-item d-sm-inline-block pr-1">
+                        <a href="{{route('problem.completed')}}" class="btn btn-dark btn-block">Завершенные заявки</a>
+                    </li>
+                @endif
+            @endif
+            @if($active == 'document' and auth()->user()->role == 2 )
+                <li class="nav-item d-sm-inline-block pr-1">
+                    <a href="{{route('document.create')}}" class="btn btn-dark btn-block">Создать документ</a>
+                </li>
+            @endif
+        </ul>
 
+        <!-- Navbar Search -->
+        <ul class="navbar-nav navbar-nav-f align-items-center" style=" align-self: center; ">
+            <li class="nav-item">
+                <a class="nav-link" href="#" role="button">
+                    <h5 class="nav-link" style="padding-right: 120px">Линии</h5>
+                </a>
+            </li>
+
+            {{----}}
 
         </ul>
-        <ul class="navbar-nav ">
+        <ul class="navbar-nav  align-items-end">
             <!-- Navbar Search -->
-
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="{{route('notification.readAll')}}">
+                    <i class="far fa-bell"></i>
+                    <span class="badge badge-warning navbar-badge">{{notificationsCount()}}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"  >
+                    <a href="{{route('notification.readAll')}}" class="dropdown-item dropdown-header">Пометить как прочитанное</a>
+                    @foreach(notifications() as $notification)
+                        @switch($notification['type'])
+                            @case('work')
+                                <div class="dropdown-divider"></div>
+                                <a href="{{route('problem.show', $notification->problem()->id)}}" class="dropdown-item">
+                                    <i class="fas fa-envelope mr-2" ></i>Заявку {{$notification->problem()->id}} взял в работу {{$notification->name}}
+                                </a>
+                                @break;
+                            @case('work')
+                                <div class="dropdown-divider"></div>
+                                <a href="{{route('report.show', $notification->problem()->id)}}" class="dropdown-item">
+                                    <i class="fas fa-envelope mr-2" ></i>{{$notification->name}} сдал отчет по заявке {{$notification->problem()->id}}
+                                </a>
+                                @break;
+                            @case('documents')
+                                <div class="dropdown-divider"></div>
+                                <a href="{{route('document.index')}}" class="dropdown-item">
+                                    <i class="fas fa-file mr-2"></i> Документы обновлены
+                                </a>
+                                @break;
+                            @case('mydocuments')
+                                <div class="dropdown-divider"></div>
+                                <a href="{{route('profile.index')}}" class="dropdown-item">
+                                    <i class="fas fa-file mr-2"></i>Мои документы обновлены
+                                </a>
+                                @break;
+                        @endswitch
+                    @endforeach
+                    <a href="{{route('notification.index')}}" class="dropdown-item dropdown-footer">Смотреть все уведомления</a>
+                </div>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                     <i class="fas fa-search"></i>
                 </a>
-                <div class="navbar-search-block" style="width: 318px; right: 1px!important;">
+                <div class="navbar-search-block" style="width: 338px; ">
                     <form class="form-inline" action="{{route('problem.search')}}">
-                        <div class="input-group input-group-sm" >
-                            <input  value="{{isset(request()->search) ? request()->search : ''}}"  name="search" class="form-control form-control-navbar searchheaderbox" type="search" placeholder="Поиск"
-                                   aria-label="Search "  style="border-radius: 45px!important; border-top-right-radius: 0!important;
-    border-bottom-right-radius: 0!important; width: 150px; " >
+                        <div class="input-group input-group-sm">
+                            <input value="{{isset(request()->search) ? request()->search : ''}}" name="search"
+                                   class="form-control form-control-navbar searchheaderbox" type="search"
+                                   placeholder="Поиск"
+                                   aria-label="Search " style="border-radius: 45px!important; border-top-right-radius: 0!important;
+    border-bottom-right-radius: 0!important; width: 180px; ">
                             <div class="input-group-append " style="right: 2px!important;">
                                 <button class="btn btn-navbar" type="submit">
                                     <i class="fas fa-search"></i>
                                 </button>
-                                <button class="btn btn-navbar" type="button" data-widget="navbar-search"  style="border-radius: 45px!important; border-top-left-radius: 0!important;
+                                <button class="btn btn-navbar" type="button" data-widget="navbar-search" style="border-radius: 45px!important; border-top-left-radius: 0!important;
                                 border-bottom-left-radius: 0!important;">
                                     <i class="fas fa-times"></i>
                                 </button>
@@ -83,32 +128,7 @@
             </li>
 
             <!-- Notifications Dropdown Menu -->
-{{--            <li class="nav-item dropdown">--}}
-{{--                <a class="nav-link" data-toggle="dropdown" href="#">--}}
-{{--                    <i class="far fa-bell"></i>--}}
-{{--                    <span class="badge badge-warning navbar-badge">15</span>--}}
-{{--                </a>--}}
-{{--                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">--}}
-{{--                    <span class="dropdown-item dropdown-header">15 Notifications</span>--}}
-{{--                    <div class="dropdown-divider"></div>--}}
-{{--                    <a href="#" class="dropdown-item">--}}
-{{--                        <i class="fas fa-envelope mr-2"></i> 4 new messages--}}
-{{--                        <span class="float-right text-muted text-sm">3 mins</span>--}}
-{{--                    </a>--}}
-{{--                    <div class="dropdown-divider"></div>--}}
-{{--                    <a href="#" class="dropdown-item">--}}
-{{--                        <i class="fas fa-users mr-2"></i> 8 friend requests--}}
-{{--                        <span class="float-right text-muted text-sm">12 hours</span>--}}
-{{--                    </a>--}}
-{{--                    <div class="dropdown-divider"></div>--}}
-{{--                    <a href="#" class="dropdown-item">--}}
-{{--                        <i class="fas fa-file mr-2"></i> 3 new reports--}}
-{{--                        <span class="float-right text-muted text-sm">2 days</span>--}}
-{{--                    </a>--}}
-{{--                    <div class="dropdown-divider"></div>--}}
-{{--                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>--}}
-{{--                </div>--}}
-{{--            </li>--}}
+
 
         </ul>
     </nav>
@@ -116,7 +136,8 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper" style="margin-left: 0!important;">
-{{--<br>--}}
+        {{--<br>--}}
+
         @yield('content')
 
     </div>
@@ -126,27 +147,32 @@
     <footer class="main-footer" style="margin-left: 0!important; display: flex ;justify-content: center; padding: 0px;">
         <div class="wrapper-newmenu">
             <div class="navbar-newmenu">
-                <a href="{{route('home')}}" class="navitem-newmenu {{$active == 'problem' ? 'active' : ''}}" onclick="select(this)" data-clr="#e4ecfa">
+                <a href="{{route('home')}}" class="navitem-newmenu {{$active == 'problem' ? 'active' : ''}}"
+                   onclick="select(this)" data-clr="#e4ecfa">
                     <div class="indicator"></div>
                     <div class="hoverindicator"></div>
                     <ion-icon name="home"></ion-icon>
                 </a>
-                <a href="{{route('document.index')}}" class="navitem-newmenu {{$active == 'document' ? 'active' : ''}}" onclick="select(this)" data-clr="#fff6cc">
+                <a href="{{route('document.index')}}" class="navitem-newmenu {{$active == 'document' ? 'active' : ''}}"
+                   onclick="select(this)" data-clr="#fff6cc">
                     <div class="indicator"></div>
                     <div class="hoverindicator"></div>
                     <ion-icon name="documents"></ion-icon>
                 </a>
-                <a href="{{route('profile.edit', auth()->user()->id)}}" class="navitem-newmenu {{$active == 'profile' ? 'active' : ''}}"  onclick="select(this)" data-clr="#fff6cc">
+                <a href="{{route('profile.edit', auth()->user()->id)}}"
+                   class="navitem-newmenu {{$active == 'profile' ? 'active' : ''}}" onclick="select(this)"
+                   data-clr="#fff6cc">
                     <div class="indicator"></div>
                     <div class="hoverindicator"></div>
                     <ion-icon name="person"></ion-icon>
                 </a>
                 @if(auth()->user()->role == 2)
-                <a href="{{route('admin.index')}}" class="navitem-newmenu {{$active == 'settings' ? 'active' : ''}}" onclick="select(this)" data-clr="#f0e4fa">
-                    <div class="indicator"></div>
-                    <div class="hoverindicator"></div>
-                    <ion-icon name="cog"></ion-icon>
-                </a>
+                    <a href="{{route('admin.index')}}" class="navitem-newmenu {{$active == 'settings' ? 'active' : ''}}"
+                       onclick="select(this)" data-clr="#f0e4fa">
+                        <div class="indicator"></div>
+                        <div class="hoverindicator"></div>
+                        <ion-icon name="cog"></ion-icon>
+                    </a>
                 @endif
 
             </div>
@@ -162,17 +188,18 @@
 <style>
     @media (max-width: 800px) {
         .searchheaderbox {
-            max-width: 100%!important;
+            max-width: 100% !important;
         }
+
         .navbar-search-block {
-            width: 100%!important;
+            width: 100% !important;
         }
 
         /*.navbar-nav-f li {*/
         /*    display: none;*/
         /*}*/
         .nonle {
-            display: none!important;
+            display: none !important;
         }
 
     }
@@ -192,6 +219,7 @@
         width: 22rem;
         background: var(--activeclr);
     }
+
     .navbar-newmenu {
         display: flex;
         justify-content: space-between;
@@ -200,6 +228,7 @@
         padding: 0 0.75rem;
         transition: padding 300ms ease;
     }
+
     .navbar-newmenu:has(.navsearch.active) {
         padding: 0 0.75rem;
     }
@@ -215,12 +244,13 @@
         font-size: 1.5rem;
         transition: width 300ms ease, flex-grow 300ms ease;
     }
+
     .navbar-newmenu:has(.navsearch.active) .navitem {
         width: 3rem;
     }
 
     .navitem-newmenu:hover {
-        color: gray!important;
+        color: gray !important;
     }
 
     .hoverindicator {
@@ -235,6 +265,7 @@
         inset: auto auto -0.25rem 50%;
         transition: inset 300ms ease, opacity 300ms ease;
     }
+
     @media (hover: hover) {
         .navitem-newmenu:not(.active):hover .hoverindicator,
         .navsearch:not(.active):hover .searchbox {
@@ -254,10 +285,10 @@
     }
 
 
-
     .navsearch.active {
         flex-grow: 1;
     }
+
     .searchbox {
         position: absolute;
         inset: 1rem;
@@ -271,6 +302,7 @@
         font-size: 1rem;
         color: transparent;
     }
+
     .active .searchbox {
         inset: 1rem 0.25rem;
         height: 2.5rem;
@@ -294,6 +326,7 @@
     .active .searchicon {
         width: 3rem;
     }
+
     .navbar-search-block {
         left: auto;
 </style>

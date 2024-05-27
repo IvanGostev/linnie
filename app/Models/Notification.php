@@ -9,4 +9,7 @@ class Notification extends Model
 {
     use HasFactory;
     protected $guarded = false;
+    public function problem() {
+        return Problem::where('id', $this->problem_id)->first();
+    }
 }

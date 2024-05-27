@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Problem;
 use App\Models\ProblemImage;
 use App\Models\Report;
 use App\Models\ReportImage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,7 +38,11 @@ class ReportController extends Controller
                 ReportImage::create(['src' => $image, 'report_id' => $report->id]);
             }
         }
-
+        Notification::create(['user_id' => $problem->userCreate()->id, 'problem_id' => $problem->id, 'type' => 'completed', 'name' => auth()->user()->name]);
+        $users = User::where('role', 2)->get();
+        foreach ($users as $user) {
+            Notification::create(['user_id' => $user->id, 'problem_id' => $problem->id, 'type' => 'completed', 'name' => auth()->user()->name]);
+        }
         return redirect()->route('home');
     }
 
