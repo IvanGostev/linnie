@@ -22,7 +22,7 @@
                                     работу {{$notification->name}}
                                 </a>
                                 @break;
-                            @case('work')
+                            @case('completed')
                                 <a href="{{route('report.show', $notification->problem()->id)}}" class="dropdown-item">
                                     <i class="fas fa-envelope mr-2"></i>{{$notification->name}} сдал отчет по
                                     заявке {{$notification->problem()->id}}
@@ -62,7 +62,7 @@
                                     работу {{$notification->name}}
                                 </a>
                                 @break;
-                            @case('work')
+                            @case('completed')
                                 <a href="{{route('report.show', $notification->problem()->id)}}" class="dropdown-item">
                                     <i class="fas fa-envelope mr-2"></i>{{$notification->name}} сдал отчет по
                                     заявке {{$notification->problem()->id}}

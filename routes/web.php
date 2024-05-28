@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DiagnosticAdminController;
 use App\Http\Controllers\Admin\PeriodAdminController;
 use App\Http\Controllers\Admin\ReasonAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
+use App\Http\Controllers\DemoController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProblemController;
@@ -111,7 +112,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/', 'index')->name('notification.index');
         Route::get('/readAll', 'readAll')->name('notification.readAll');
     });
+
 });
+Route::controller(DemoController::class)->prefix('demo')->group(function () {
+    Route::get('/pdf', 'demo');
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

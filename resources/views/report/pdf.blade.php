@@ -1,81 +1,55 @@
-@extends('layouts.main')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        @font-face {
+            font-family: "DejaVu Sans";
+            font-style: normal;
+            font-weight: 400;
+            src: url("/fonts/dejavu-sans/DejaVuSans.ttf");
+            /* IE9 Compat Modes */
+            src: local("DejaVu Sans"),
+            local("DejaVu Sans"),
+            url("/fonts/dejavu-sans/DejaVuSans.ttf") format("truetype");
+        }
+        body {
+            font-family: DejaVu Sans!important;
+            font-size: 14px;}
+    </style>
+    <style type="text/css">
+        * {
+            /*font-family: Helvetica, sans-serif;*/
+            font-family: "DejaVu Sans", sans-serif;
+        }
+    </style>
+</head>
 
-@section('content')
+<body>
 
-    <section class="content-header">
-    </section>
-    <section class="content">
-
-        <div class="container-fluid">
-            <div class="row">
-                <!-- left column -->
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card card-secondary">
-                        <div class="card-header">
-                            <h3 class="card-title">Заявка №{{$problem['id']}}</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Причина</label>
-                                <h6>{{$problem['reason']}}</h6>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Статус</label>
-                                <p>{{$problem['status']}}</p>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Примечание</label>
-                                <p>{{$problem['text']}}</p>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-            <div class="row">
-                <!-- left column -->
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card card-secondary">
-                        <div class="card-header">
-                            <h3 class="card-title">Просмотр отчета</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Комметарий</label>
-                                <p>{{$report['comment']}}</p>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Описание проведённых работ</label>
-                                <p>{{$report['work']}}</p>
-                            </div>
-                        </div>
-
-                        <!-- /.card-body -->
-
-                        {{--                        <div class="card-footer">--}}
-                        {{--                            <button type="submit" class="btn btn-secondary">Изменить</button>--}}
-                        {{--                        </div>--}}
-
-                    </div>
+<p style="font-size: 20px">{{'Отчет по заявке номер'}}</p>
+<p style="font-size: 16px"> Заявка</p>
+<p>
+    Причина: <br>
+    {{$problem['reason']}}
+</p>
+<p>
+    Примечание:  <br>
+    {{$problem['text']}}
+</p>
+<p style="font-size: 16px">Отчет</p>
+<p>
+    Комметарий: <br>
+    {{$report['comment']}}
+</p>
+<p>
+    Описание проведённых работ:  <br>
+    {{$report['work']}}
+</p>
+</body>
 
 
-                </div>
-
-            </div>
-
-
-        </div>
-    </section>
-@endsection
+</html>

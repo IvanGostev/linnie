@@ -78,7 +78,7 @@
                                     <i class="fas fa-envelope mr-2" ></i>Заявку {{$notification->problem()->id}} взял в работу {{$notification->name}}
                                 </a>
                                 @break;
-                            @case('work')
+                            @case('completed')
                                 <div class="dropdown-divider"></div>
                                 <a href="{{route('report.show', $notification->problem()->id)}}" class="dropdown-item">
                                     <i class="fas fa-envelope mr-2" ></i>{{$notification->name}} сдал отчет по заявке {{$notification->problem()->id}}
