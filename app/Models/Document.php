@@ -13,7 +13,10 @@ class Document extends Model
         return DocumentFile::where('document_id', $this->id)->get();
     }
     public function extension() {
-        return explode('.', DocumentFile::where('document_id', $this->id)->first()->src)[1];
+        if (DocumentFile::where('document_id', $this->id)->count() > 0) {
+            return explode('.', DocumentFile::where('document_id', $this->id)->first()->src)[1];
+        }
+        return 'txt';
     }
 }
 
