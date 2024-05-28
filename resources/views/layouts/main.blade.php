@@ -51,16 +51,15 @@
         </ul>
 
         <!-- Navbar Search -->
-        <ul class="navbar-nav navbar-nav-f align-items-center" style=" align-self: center; ">
-            <li class="nav-item">
-                <a class="nav-link" href="#" role="button">
+
+                <a class="nav-link" style=" text-decoration: none; color: white; align-self: center; position: absolute; left: 45%; top: 0; padding-top: 4;" href="#" role="button">
                     <h5 class="nav-link" style="padding-right: 120px">Линии</h5>
                 </a>
-            </li>
+
 
             {{----}}
 
-        </ul>
+
         <ul class="navbar-nav  align-items-end">
             <!-- Navbar Search -->
             <li class="nav-item dropdown">
