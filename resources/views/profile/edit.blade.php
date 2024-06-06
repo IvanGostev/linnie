@@ -124,19 +124,19 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3" style="height: auto">
 
 
                     <div class="card card-primary card-outline">
-                        <div class="card-body box-profile">
+                        <div class="card-body box-profile pb-4" >
                             <div class="text-center" >
                                 <img class="profile-user-img img-fluid img-circle"
-                                     src="{{ asset('storage/' . $user->img) }}" style="max-width: 107px!important; max-height: 107px!important"
-                                     alt="User profile picture" width="110" height="110">
+                                     src="{{ asset('storage/' . $user->img) }}" style="max-width: 120px!important; max-height: 120px!important"
+                                     alt="User profile picture" width="120" height="120">
                             </div>
 
                             <h3 class="profile-username text-center">{{$user->name}}</h3>
-                            @if(auth()->user()->role > 1)
+                            @if(auth()->user()->role == 2)
                                     <a href="{{route('userdocument.index')}}" class="btn btn-dark btn-block">Мастера</a>
                                 <br>
                             @endif
@@ -183,7 +183,9 @@
                                         </div>
                                     </form>
                                 </div>
-                                <!-- /.tab-pane -->
+                                @if(auth()->user()->role > 0)
+                                <a href="{{route('admin.diagnostic.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Диагностики</b></a>
+                                    @endif
                             </div>
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->
@@ -342,7 +344,7 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
-    @if(auth()->user()->role > 1)
+    @if(auth()->user()->role == 2)
         <style>
             .body-check {
              height: 287px!important;

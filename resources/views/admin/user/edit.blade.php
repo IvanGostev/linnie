@@ -167,9 +167,10 @@
                                             <div class="col-sm-10">
 
                                                 <select class="form-control" name="role">
-                                                    <option {{$user->role == 0 ? 'selected' : ''}} value="0">Пользователь</option>
-                                                    <option {{$user->role == 1 ? 'selected' : ''}}  value="1">Мастер</option>
-                                                    <option {{$user->role == 2 ? 'selected' : ''}}  value="2">Админ</option>
+                                                    <option {{$user->role == 0 ? 'selected' : ''}}  value="0">Мастер Бригады</option>
+                                                    <option {{$user->role == 3 ? 'selected' : ''}} value="3">Ведущий Инженер</option>
+                                                    <option {{$user->role == 1 ? 'selected' : ''}} value="1">Инженер КИПиА</option>
+                                                    <option {{$user->role == 2 ? 'selected' : ''}} value="2">Администратор</option>
                                                 </select>
 
                                             </div>

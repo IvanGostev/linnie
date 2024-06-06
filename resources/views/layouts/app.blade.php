@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{  'Линни' }}</title>
+    <title>{{  'Линии' }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -21,7 +21,7 @@
         <nav class="navbar navbar-expand-md navbar-dark  shadow-sm">
             <div class="container" style="justify-content: center;">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ 'Линни' }}
+                    {{ 'Линии' }}
                 </a>
             </div>
         </nav>

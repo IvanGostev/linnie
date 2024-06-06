@@ -13,12 +13,14 @@
                 <div class="dropdown">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                        data-bs-toggle="dropdown" aria-expanded="false">
-Инженеры
+                        Инженеры
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         @foreach($users as $user)
-                            <li><a class="dropdown-item {{isset(request()->user_id) ? ( $userActive->id == $user->id ? 'active' : '' ) : ''}}" href="/completed?user_id={{$user->id}}">{{$user->name}}</a></li>
+                            <li>
+                                <a class="dropdown-item {{isset(request()->user_id) ? ( $userActive->id == $user->id ? 'active' : '' ) : ''}}"
+                                   href="/completed?user_id={{$user->id}}">{{$user->name}}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -72,7 +74,7 @@
 
                             <span>{{$problem->created_at->format('d.m.Y h:i')}}</span>
 
-<br>
+                            <br>
                             <span
                                 style="color: white">{{$problem->user()->name}}</span>
                             <br>
@@ -104,6 +106,7 @@
                                 @if(auth()->user()->role > 1 and $problem->reportCount())
                                     <a class="btn btn-primary btn-block" href={{route('report.show', $problem->id)}}><i
                                             class="fas fa-file-alt"></i>Посмотреть</a>
+                                    <a style="margin-left: 15px" href="{{route('report.pdf',  $problem->id)}}" class="btn btn-info">PDF</a>
                                 @endif
                             </div>
 

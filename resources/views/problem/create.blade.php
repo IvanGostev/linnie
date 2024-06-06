@@ -138,6 +138,16 @@
                             <!-- form start -->
 
                                 <div class="card-body">
+                                    @if(auth()->user()->role == 3)
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Бригада</label>
+                                        <select name="user_id" class="form-control">
+                                            @foreach($users as $user)
+                                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @endif
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Причина</label>
                                             <select name="reason_id" class="form-control">

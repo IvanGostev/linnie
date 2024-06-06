@@ -37,7 +37,7 @@
                         <a class="btn btn-dark btn-block" href="{{route('problem.create')}}">Создать заявку</a>
                     </li>
                 @endif
-                @if(auth()->user()->role == 2)
+                @if(auth()->user()->role > 1)
                     <li class="nav-item d-sm-inline-block pr-1">
                         <a href="{{route('problem.completed')}}" class="btn btn-dark btn-block">Завершенные заявки</a>
                     </li>
@@ -52,8 +52,8 @@
 
         <!-- Navbar Search -->
 
-                <a class="nav-link" style=" text-decoration: none; color: white; align-self: center; position: absolute; left: 45%; top: 0; padding-top: 4;" href="#" role="button">
-                    <h5 class="nav-link" style="padding-right: 120px">Линии</h5>
+                <a class="nav-link logo-linii" style=" text-decoration: none; color: white; align-self: center; position: absolute; left: 45.5%; top: 0;" href="#" role="button">
+                    <h5 class="nav-link">Линии</h5>
                 </a>
 
 
@@ -65,7 +65,9 @@
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="{{route('notification.readAll')}}">
                     <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge">{{notificationsCount()}}</span>
+                    @if(notificationsCount() > 0)
+                        <span class="badge badge-warning navbar-badge">{{notificationsCount()}}</span>
+                    @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"  >
                     <a href="{{route('notification.readAll')}}" class="dropdown-item dropdown-header">Пометить как прочитанное</a>
@@ -91,7 +93,7 @@
                                 @break;
                             @case('mydocuments')
                                 <div class="dropdown-divider"></div>
-                                <a href="{{route('profile.index')}}" class="dropdown-item">
+                                <a href="{{route('profile.edit', auth()->user()->id)}}" class="dropdown-item">
                                     <i class="fas fa-file mr-2"></i>Мои документы обновлены
                                 </a>
                                 @break;
@@ -183,7 +185,6 @@
 
 
 </div>
-
 <style>
     @media (max-width: 800px) {
         .searchheaderbox {
@@ -193,7 +194,9 @@
         .navbar-search-block {
             width: 100% !important;
         }
-
+        .logo-linii {
+            left: {{!($active == 'document' or $active == 'problem') ? '34' : '45.5'}}%!important;
+        }
         /*.navbar-nav-f li {*/
         /*    display: none;*/
         /*}*/

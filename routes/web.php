@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\DiagnosticAdminController;
 use App\Http\Controllers\Admin\PeriodAdminController;
 use App\Http\Controllers\Admin\ReasonAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
-use App\Http\Controllers\DemoController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProblemController;
@@ -39,6 +38,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/problem/{problem}/show', 'show')->name('problem.show');
         Route::patch('/problem/{problem}', 'update')->name('problem.update');
         Route::delete('/problem/{problem}', 'delete')->name('problem.delete');
+
+        Route::get('/problem/create/new', 'createNew')->name('problem.createNew');
+        Route::post('/problem/new', 'storeNew')->name('problem.storeNew');
+
         Route::controller(ReportController::class)->prefix('reports')->group(function () {
             Route::get('/', 'index')->name('report.index');
             Route::get('/{problem}/create', 'create')->name('report.create');
@@ -113,9 +116,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/readAll', 'readAll')->name('notification.readAll');
     });
 
-});
-Route::controller(DemoController::class)->prefix('demo')->group(function () {
-    Route::get('/pdf', 'demo');
 });
 
 Auth::routes();

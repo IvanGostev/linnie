@@ -128,11 +128,8 @@
                 <!-- /.col -->
                 <div class="col-md-12">
                     <div class="card">
-
                         <div class="card-body">
                             <div class="tab-content">
-
-
                                 <div class="active tab-pane" id="settings">
                                     <form class="form-horizontal" method="post" action="{{route('admin.user.store')}}" enctype="multipart/form-data">
                                         @csrf
@@ -159,13 +156,12 @@
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-2 col-form-label">Роль</label>
                                             <div class="col-sm-10">
-
                                                 <select class="form-control" name="role">
                                                     <option value="0">Мастер Бригады</option>
+                                                    <option value="3">Ведущий Инженер</option>
                                                     <option value="1">Инженер КИПиА</option>
                                                     <option value="2">Администратор</option>
                                                 </select>
-
                                             </div>
                                         </div>
                                         <div class="form-group row">

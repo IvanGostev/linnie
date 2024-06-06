@@ -56,16 +56,23 @@ class ProblemController extends Controller
     {
         $active = '0';
         $reasons = Reason::all();
+        if (auth()->user()->role == 3) {
+            $users = User::where('role', 0)->get();
+            return view('problem.create', compact('active', 'reasons', 'users'));
+        }
         return view('problem.create', compact('active', 'reasons'));
     }
 
     public function store(Request $request)
     {
-
         $data = $request->all();
-        $images = $data['images'];
+        if (!isset($data['user_id'])) {
+            $data['user_id'] = auth()->user()->id;
+        }
+        if (isset($data['images'])) {
+            $images = $data['images'];
+        }
         unset($data['images']);
-        $data['user_id'] = auth()->user()->id;
         $problem = Problem::create($data);
         if (isset($images)) {
             foreach ($images as $image) {
