@@ -17,7 +17,11 @@ class UserDocumentController extends Controller
         $documents = UserDocument::where('user_id', $user->id)->get();
         return view('user.document.index');
     }
-    public function index() {
+    public function engineerIndex() {
+        $users = User::where('role', 1)->get();
+        return view('user.engineer', compact('users'));
+    }
+    public function masterIndex() {
         $users = User::where('role', 0)->get();
         return view('user.index', compact('users'));
     }

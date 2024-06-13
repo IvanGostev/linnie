@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PeriodAdminController;
 use App\Http\Controllers\Admin\ReasonAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProblemController;
 use App\Http\Controllers\ProfileController;
@@ -58,11 +59,15 @@ Route::middleware('auth')->group(function () {
             Route::get('/{document}/edit', 'edit')->name('document.edit');
             Route::get('/{document}/show', 'show')->name('document.show');
             Route::delete('/{document}/delete', 'delete')->name('document.delete');
-//            Route::prefix('files')->group(function () {
-//                Route::get('/{document}', 'createFile')->name('document.file.create');
-//                Route::post('/{document}', 'storeFile')->name('document.file.store');
-//                Route::delete('/{file}', 'deleteFile')->name('document.file.delete');
-//            });
+        });
+        Route::controller(NoteController::class)->prefix('notes')->group(function () {
+            Route::get('/', 'index')->name('note.index');
+            Route::get('/create', 'create')->name('note.create');
+            Route::post('/', 'store')->name('note.store');
+            Route::get('/{note}/edit', 'edit')->name('note.edit');
+            Route::patch('/{note}/update', 'update')->name('note.update');
+            Route::get('/{note}/show', 'show')->name('note.show');
+            Route::delete('/{note}/delete', 'delete')->name('note.delete');
         });
         Route::controller(ProfileController::class)->prefix('profile')->group(function () {
             Route::get('/{user}/edit', 'edit')->name('profile.edit');
@@ -103,10 +108,12 @@ Route::middleware('auth')->group(function () {
 
                 });
             });
+
         });
     });
     Route::controller(UserDocumentController::class)->prefix('user-documents')->group(function () {
-        Route::get('/users', 'index')->name('userdocument.index');
+        Route::get('/users', 'masterIndex')->name('userdocument.index');
+        Route::get('/engineers', 'engineerIndex')->name('userdocument.engineer');
         Route::get('/{user}/edit', 'edit')->name('userdocument.edit');
         Route::patch('/{user}/update', 'update')->name('userdocument.update');
         Route::delete('/{document}/delete', 'delete')->name('userdocument.delete');

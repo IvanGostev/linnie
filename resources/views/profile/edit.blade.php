@@ -127,7 +127,7 @@
                 <div class="col-md-3" style="height: auto">
 
 
-                    <div class="card card-primary card-outline">
+                    <div class="card card-primary card-outline" style="height: 94%">
                         <div class="card-body box-profile pb-4" >
                             <div class="text-center" >
                                 <img class="profile-user-img img-fluid img-circle"
@@ -138,6 +138,8 @@
                             <h3 class="profile-username text-center">{{$user->name}}</h3>
                             @if(auth()->user()->role == 2)
                                     <a href="{{route('userdocument.index')}}" class="btn btn-dark btn-block">Мастера</a>
+                                <a href="{{route('userdocument.engineer')}}" class="btn btn-dark btn-block">Инженеры</a>
+
                                 <br>
                             @endif
                             <form action="{{route('logout')}}" method="post" >
@@ -151,7 +153,7 @@
 
                 </div>
                 <!-- /.col -->
-                <div class="col-md-9" style="height: auto">
+                <div class="col-md-9">
                     <div class="card" >
 
                         <div class="card-body body-check" >
@@ -185,6 +187,7 @@
                                 </div>
                                 @if(auth()->user()->role > 0)
                                 <a href="{{route('admin.diagnostic.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Диагностики</b></a>
+                                    <a href="{{route('note.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Заметки</b></a>
                                     @endif
                             </div>
                             <!-- /.tab-content -->
@@ -314,6 +317,8 @@
                             <!-- /.card-body -->
                         </div>
                     </div>
+                @endif()
+                    @if(auth()->user()->role != 2)
                     <div class="col-md-6">
                         <div class="card card-secondary">
                             <div class="card-header">
@@ -338,7 +343,6 @@
                             <!-- /.card-body -->
                         </div>
                     </div>
-
                 @endif()
             </div>
             <!-- /.row -->
@@ -347,7 +351,7 @@
     @if(auth()->user()->role == 2)
         <style>
             .body-check {
-             height: 287px!important;
+             height: auto;
             }
         </style>
     @endif

@@ -24,7 +24,7 @@
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
         {{--        class="animation__wobble"--}}
-        <h3>Линии</h3>
+        <h3>ЛИНИИ</h3>
     </div>
 
     <!-- Navbar -->
@@ -48,12 +48,17 @@
                     <a href="{{route('document.create')}}" class="btn btn-dark btn-block">Создать документ</a>
                 </li>
             @endif
+                @if($active == 'note' and auth()->user()->role != 0 )
+                    <li class="nav-item d-sm-inline-block pr-1">
+                        <a href="{{route('note.create')}}" class="btn btn-dark btn-block">Создать заметку</a>
+                    </li>
+                @endif
         </ul>
 
         <!-- Navbar Search -->
 
                 <a class="nav-link logo-linii" style=" text-decoration: none; color: white; align-self: center; position: absolute; left: 45.5%; top: 0;" href="#" role="button">
-                    <h5 class="nav-link">Линии</h5>
+                    <h5 class="nav-link">ЛИНИИ</h5>
                 </a>
 
 
