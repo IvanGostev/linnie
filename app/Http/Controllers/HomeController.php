@@ -6,23 +6,21 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function index()
     {
-        return redirect('/');
+        return view('main.index');
+    }
+    public function aboutUs()
+    {
+        return view('main.about-us');
+    }
+    public function news()
+    {
+        return view('main.blog-single');
+    }
+    public function contact()
+    {
+        return view('main.contact');
     }
 }

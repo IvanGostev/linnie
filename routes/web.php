@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
 //                Route::delete('/{checklist}', 'delete')->name('checklist.delete');
     });
     Route::controller(ProblemController::class)->group(function () {
-        Route::get('/', 'index')->name('home');
+        Route::get('/home', 'index')->name('home');
         Route::get('/completed', 'completed')->name('problem.completed');
         Route::get('/search', 'search')->name('problem.search');
         Route::get('/problem/create', 'create')->name('problem.create');
@@ -146,6 +146,9 @@ Route::middleware('auth')->group(function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('main');
+Route::get('/about-us', [App\Http\Controllers\HomeController::class, 'aboutUs'])->name('about');
+Route::get('/news', [App\Http\Controllers\HomeController::class, 'news'])->name('news');
+Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
 
 
