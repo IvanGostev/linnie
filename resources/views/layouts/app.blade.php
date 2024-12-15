@@ -21,7 +21,7 @@
         <nav class="navbar navbar-expand-md navbar-dark  shadow-sm">
             <div class="container" style="justify-content: center;">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ 'Линии' }}
+                    <img width="15px" src="/logo-ll.png" alt="">     {{ 'Линии' }}
                 </a>
             </div>
         </nav>

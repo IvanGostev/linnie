@@ -58,7 +58,7 @@
         <!-- Navbar Search -->
 
                 <a class="nav-link logo-linii" style=" text-decoration: none; color: white; align-self: center; position: absolute; left: 45.5%; top: 0;" href="#" role="button">
-                    <h5 class="nav-link">ЛИНИИ</h5>
+                    <h5 class="nav-link"><img width="15px" src="/logo-ll.png" alt=""> ЛИНИИ</h5>
                 </a>
 
 
