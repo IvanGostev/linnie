@@ -185,10 +185,16 @@
                                         </div>
                                     </form>
                                 </div>
-                                @if(auth()->user()->role > 0)
+                                <a href="{{route('checklist.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Мои чек листы</b></a>
+
+                            @if(auth()->user()->role > 0)
+
                                 <a href="{{route('admin.diagnostic.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Диагностики</b></a>
                                     <a href="{{route('note.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Заметки</b></a>
                                     @endif
+                                @if(auth()->user()->role == 2)
+                                    <a href="{{route('admin.checklist.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Чек листы пользователей</b></a>
+                                @endif
                             </div>
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->

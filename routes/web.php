@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ChecklistAdminController;
 use App\Http\Controllers\Admin\DiagnosticAdminController;
 use App\Http\Controllers\Admin\PeriodAdminController;
 use App\Http\Controllers\Admin\ReasonAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
+use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NotificationController;
@@ -28,6 +30,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth')->group(function () {
+    Route::controller(ChecklistController::class)->prefix('checklist')->group(function () {
+        Route::get('/', 'index')->name('checklist.index');
+        Route::get('/{checklist}/tasks', 'tasks')->name('checklist.task.index');
+        Route::get('/{task}/task', 'task')->name('checklist.task.show');
+        Route::get('/{task}/edit', 'edit')->name('checklist.task.edit');
+        Route::patch('/{task}', 'update')->name('checklist.task.update');
+//                Route::delete('/{checklist}', 'delete')->name('checklist.delete');
+    });
     Route::controller(ProblemController::class)->group(function () {
         Route::get('/', 'index')->name('home');
         Route::get('/completed', 'completed')->name('problem.completed');
@@ -75,6 +85,15 @@ Route::middleware('auth')->group(function () {
         });
         Route::controller(AdminController::class)->prefix('admin')->group(function () {
             Route::get('/', 'index')->name('admin.index');
+            Route::controller(ChecklistAdminController::class)->prefix('checklist')->group(function () {
+                Route::get('/', 'index')->name('admin.checklist.index');
+                Route::get('/{user}/main', 'main')->name('admin.checklist.main');
+                Route::get('/{checklist}/tasks', 'tasks')->name('admin.checklist.task.index');
+                Route::get('/{task}/task', 'task')->name('admin.checklist.task.show');
+                Route::post('/', 'store')->name('admin.checklist.store');
+                Route::post('/task', 'storeTask')->name('admin.checklist.task.store');
+//                Route::delete('/{checklist}', 'delete')->name('admin.checklist.delete');
+            });
             Route::controller(UserAdminController::class)->prefix('users')->group(function () {
                 Route::get('/', 'index')->name('admin.user.index');
                 Route::get('/create', 'create')->name('admin.user.create');

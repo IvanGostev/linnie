@@ -39,7 +39,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
+    public function checklistCount() {
+        return Checklist::where('user_id', $this->id)->count();
+    }
     public function problemIds() {
         return UserProblem::where('user_id', $this->id)->get('id');
     }
