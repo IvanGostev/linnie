@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\Problem;
 use App\Models\ProblemImage;
 use App\Models\Report;
@@ -63,6 +64,11 @@ class ChecklistController extends Controller
         }
         $data['status'] = 'Выполнена';
         $task->update($data);
+        $users = User::where('role', 2)->get();
+        foreach ($users as $user) {
+            Notification::create(['user_id' => $user->id, 'task_id' => $task->id, 'type' => 'task', 'name' => auth()->user()->name]);
+        }
+
         return redirect()->route('checklist.index');
     }
 

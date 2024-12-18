@@ -3,11 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <title>ООО "ЛИНИИ"</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.png')}}" />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{  'Линии' }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -21,7 +23,7 @@
         <nav class="navbar navbar-expand-md navbar-dark  shadow-sm">
             <div class="container" style="justify-content: center;">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img width="15px" src="/logo-ll.png" alt="">     {{ 'Линии' }}
+                    <img width="15px" src="/logo-ll.png" alt="">     {{ 'ООО "ЛИНИИ"' }}
                 </a>
             </div>
         </nav>

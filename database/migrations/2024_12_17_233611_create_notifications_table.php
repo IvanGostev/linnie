@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Problem;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,7 +19,8 @@ return new class extends Migration
             $table->string('type');
             $table->string('name')->nullable(); // кто принял заявку
             $table->foreignIdFor(User::class)->constrained(); // кому приходит уведомление
-            $table->foreignIdFor(Problem::class)->nullable()->constrained(); // кому приходит уведомление
+            $table->foreignIdFor(Problem::class)->nullable()->constrained();
+            $table->foreignIdFor(Task::class)->nullable()->constrained();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

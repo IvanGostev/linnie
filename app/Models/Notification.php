@@ -12,4 +12,7 @@ class Notification extends Model
     public function problem() {
         return Problem::where('id', $this->problem_id)->first();
     }
+    public function task() {
+        return Task::where('id', $this->task_id)->first();
+    }
 }

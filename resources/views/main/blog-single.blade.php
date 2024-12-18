@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="zxx">t-
+<html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -46,7 +46,7 @@
                     <div class="nav-inner">
                         <!-- Start Navbar -->
                         <nav class="navbar navbar-expand-lg">
-                            <a class="navbar-brand" href="index.html">
+                            <a class="navbar-brand" href="/">
                                 <img src="{{ asset('assets/images/logo/white-logo.png')}}" alt="Logo">
                             </a>
                             <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
@@ -59,7 +59,8 @@
                             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                                 <ul id="nav" class="navbar-nav ms-auto">
                                     <li class="nav-item">
-                                        <a href="{{ route('main')}}" class="active" aria-label="Toggle navigation">Главная</a>
+                                        <a href="{{ route('main')}}" class="active"
+                                           aria-label="Toggle navigation">Главная</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{ route('about')}}" aria-label="Toggle navigation">О нас</a>
@@ -70,13 +71,13 @@
                                     <li class="nav-item">
                                         <a href="{{ route('contact')}}" aria-label="Toggle navigation">Контакты</a>
                                     </li>
-                                    <li class="btn-login-special" style="display: none;">
+                                    <li class="btn-login-special nav-item" style="display: none;">
                                         <a href="{{ route('login')}}" aria-label="Toggle navigation">Вход</a>
                                     </li>
                                 </ul>
                             </div> <!-- navbar collapse -->
                             <div class="button">
-                                <a href="{{ route('login')}}" class="btn">Вход</a>
+                                <a href="{{ route('login')}}" class="nav-link navbar-text btn">Вход</a>
                             </div>
                         </nav>
                         <!-- End Navbar -->
@@ -86,6 +87,7 @@
         </div> <!-- container -->
     </header>
     <!-- End Header Area -->
+
 
     <!-- Start Breadcrumbs -->
     <div class="breadcrumbs">
@@ -362,11 +364,18 @@
     <script src="{{ asset('assets/js/count-up.min.js')}}"></script>
     <script src="{{ asset('assets/js/main.js')}}"></script>
     <script>
-        $(window).resize(function() {
-     if(document.documentElement.clientWidth < 1000) {
-         document.getElementsByClassName('btn-login-special').style.display = 'block';
-     }
- });
+        //=========== Menu
+        function updateMenu() {
+            if (window.screen.width < 760) {
+                document.querySelector('.btn-login-special').style.display = 'block';
+            } else {
+                document.querySelector('.btn-login-special').style.display = 'none';
+            }
+        }
+        updateMenu()
+        window.addEventListener('resize', function(event) {
+            updateMenu()
+        }, true);
  </script>
 </body>
 

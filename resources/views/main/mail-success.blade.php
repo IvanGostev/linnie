@@ -64,6 +64,7 @@
   <script src="{{ asset('assets/js/glightbox.min.js')}}"></script>
   <script src="{{ asset('assets/js/count-up.min.js')}}"></script>
   <script>
+
     window.onload = function () {
       window.setTimeout(fadeout, 500);
     }

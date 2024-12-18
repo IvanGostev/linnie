@@ -3,7 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Линии</title>
+    <title>ООО "ЛИНИИ"</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.png')}}"/>
     <meta {{!isset($active) ? $active = '0' : ''}}>
 
     <!-- Google Font: Source Sans Pro -->
@@ -24,7 +27,7 @@
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
         {{--        class="animation__wobble"--}}
-        <h3>ЛИНИИ</h3>
+        <h3>ООО "ЛИНИИ"</h3>
     </div>
 
     <!-- Navbar -->
@@ -48,21 +51,23 @@
                     <a href="{{route('document.create')}}" class="btn btn-dark btn-block">Создать документ</a>
                 </li>
             @endif
-                @if($active == 'note' and auth()->user()->role != 0 )
-                    <li class="nav-item d-sm-inline-block pr-1">
-                        <a href="{{route('note.create')}}" class="btn btn-dark btn-block">Создать заметку</a>
-                    </li>
-                @endif
+            @if($active == 'note' and auth()->user()->role != 0 )
+                <li class="nav-item d-sm-inline-block pr-1">
+                    <a href="{{route('note.create')}}" class="btn btn-dark btn-block">Создать заметку</a>
+                </li>
+            @endif
         </ul>
 
         <!-- Navbar Search -->
 
-                <a class="nav-link logo-linii" style=" text-decoration: none; color: white; align-self: center; position: absolute; left: 45.5%; top: 0;" href="#" role="button">
-                    <h5 class="nav-link"><img width="15px" src="/logo-ll.png" alt=""> ЛИНИИ</h5>
-                </a>
+        <a class="nav-link logo-linii"
+           style=" text-decoration: none; color: white; align-self: center; position: absolute; left: 43%; top: 0;"
+           href="/" role="button">
+            <h5 class="nav-link"><img width="15px" src="/logo-ll.png" alt=""> ООО "ЛИНИИ"</h5>
+        </a>
 
 
-            {{----}}
+        {{----}}
 
 
         <ul class="navbar-nav  align-items-end">
@@ -74,20 +79,29 @@
                         <span class="badge badge-warning navbar-badge">{{notificationsCount()}}</span>
                     @endif
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"  >
-                    <a href="{{route('notification.readAll')}}" class="dropdown-item dropdown-header">Пометить как прочитанное</a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <a href="{{route('notification.readAll')}}" class="dropdown-item dropdown-header">Пометить как
+                        прочитанное</a>
                     @foreach(notifications() as $notification)
                         @switch($notification['type'])
                             @case('work')
                                 <div class="dropdown-divider"></div>
                                 <a href="{{route('problem.show', $notification->problem()->id)}}" class="dropdown-item">
-                                    <i class="fas fa-envelope mr-2" ></i>Заявку {{$notification->problem()->id}} взял в работу {{$notification->name}}
+                                    <i class="fas fa-envelope mr-2"></i>Заявку {{$notification->problem()->id}} взял в
+                                    работу {{$notification->name}}
                                 </a>
                                 @break;
                             @case('completed')
                                 <div class="dropdown-divider"></div>
                                 <a href="{{route('report.show', $notification->problem()->id)}}" class="dropdown-item">
-                                    <i class="fas fa-envelope mr-2" ></i>{{$notification->name}} сдал отчет по заявке {{$notification->problem()->id}}
+                                    <i class="fas fa-envelope mr-2"></i>{{$notification->name}} сдал отчет по
+                                    заявке {{$notification->problem()->id}}
+                                </a>
+                                @break;
+                            @case('task')
+                                <div class="dropdown-divider"></div>
+                                <a href="{{route('checklist.task.show', $notification->task()->id)}}" class="dropdown-item">
+                                    <i class="fas fa-envelope mr-2"></i>{{$notification->name}} выполнил задачу: {{$notification->task()->title}}
                                 </a>
                                 @break;
                             @case('documents')
@@ -104,7 +118,8 @@
                                 @break;
                         @endswitch
                     @endforeach
-                    <a href="{{route('notification.index')}}" class="dropdown-item dropdown-footer">Смотреть все уведомления</a>
+                    <a href="{{route('notification.index')}}" class="dropdown-item dropdown-footer">Смотреть все
+                        уведомления</a>
                 </div>
             </li>
             <li class="nav-item">
@@ -199,9 +214,11 @@
         .navbar-search-block {
             width: 100% !important;
         }
+
         .logo-linii {
-            left: {{!($active == 'document' or $active == 'problem') ? '34' : '45.5'}}%!important;
+            left: {{!($active == 'document' or $active == 'problem') ? '34' : '45.5'}}% !important;
         }
+
         /*.navbar-nav-f li {*/
         /*    display: none;*/
         /*}*/
