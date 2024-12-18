@@ -128,21 +128,22 @@
 
 
                     <div class="card card-primary card-outline" style="height: 94%">
-                        <div class="card-body box-profile pb-4" >
-                            <div class="text-center" >
+                        <div class="card-body box-profile pb-4">
+                            <div class="text-center">
                                 <img class="profile-user-img img-fluid img-circle"
-                                     src="{{ asset('storage/' . $user->img) }}" style="max-width: 120px!important; max-height: 120px!important"
+                                     src="{{ asset('storage/' . $user->img) }}"
+                                     style="max-width: 120px!important; max-height: 120px!important"
                                      alt="User profile picture" width="120" height="120">
                             </div>
 
                             <h3 class="profile-username text-center">{{$user->name}}</h3>
                             @if(auth()->user()->role == 2)
-                                    <a href="{{route('userdocument.index')}}" class="btn btn-dark btn-block">Мастера</a>
+                                <a href="{{route('userdocument.index')}}" class="btn btn-dark btn-block">Мастера</a>
                                 <a href="{{route('userdocument.engineer')}}" class="btn btn-dark btn-block">Инженеры</a>
 
                                 <br>
                             @endif
-                            <form action="{{route('logout')}}" method="post" >
+                            <form action="{{route('logout')}}" method="post">
                                 @csrf
                                 <button type="submit" class="btn btn-primary btn-block"><b>Выйти</b></button>
                             </form>
@@ -154,18 +155,20 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-md-9">
-                    <div class="card" >
+                    <div class="card">
 
-                        <div class="card-body body-check" >
+                        <div class="card-body body-check">
                             <div class="tab-content">
 
 
                                 <div class="active tab-pane" id="settings">
-                                    <form class="form-horizontal" method="post" action="{{route('profile.update', $user->id)}}" enctype="multipart/form-data">
+                                    <form class="form-horizontal" method="post"
+                                          action="{{route('profile.update', $user->id)}}" enctype="multipart/form-data">
                                         @csrf
                                         @method('patch')
                                         <div class="form-group row">
-                                            <label for="inputName" class="col-sm-2 col-form-label">Поменять фотографию</label>
+                                            <label for="inputName" class="col-sm-2 col-form-label">Поменять
+                                                фотографию</label>
                                             <div class="col-sm-10">
                                                 <input style="display: none" name="img" type="file" id="images">
                                             </div>
@@ -173,7 +176,8 @@
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-2 col-form-label">Имя</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" name="name" value="{{auth()->user()->name}}" id="inputName"
+                                                <input class="form-control" name="name" value="{{auth()->user()->name}}"
+                                                       id="inputName"
                                                        placeholder="Имя">
                                             </div>
                                         </div>
@@ -185,15 +189,13 @@
                                         </div>
                                     </form>
                                 </div>
-                                <a href="{{route('checklist.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Мои чек листы</b></a>
+                                <a href="{{route('checklist.index')}}" type="submit"
+                                   class="btn btn-secondary btn-block"><b>Мои чек листы</b></a>
 
-                            @if(auth()->user()->role > 0)
-
-                                <a href="{{route('admin.diagnostic.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Диагностики</b></a>
+                                @if(auth()->user()->role > 0)
+                                    <a href="{{route('admin.diagnostic.index')}}" type="submit"
+                                       class="btn btn-secondary btn-block"><b>Диагностики</b></a>
                                     <a href="{{route('note.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Заметки</b></a>
-                                    @endif
-                                @if(auth()->user()->role == 2)
-                                    <a href="{{route('admin.checklist.index')}}" type="submit" class="btn btn-secondary btn-block"><b>Чек листы пользователей</b></a>
                                 @endif
                             </div>
                             <!-- /.tab-content -->
@@ -202,84 +204,88 @@
                     <!-- /.card -->
                 </div>
                 @if(auth()->user()->role == 1)
-                <div class="col-md-6">
-                    <div class="card card-secondary">
-                        <div class="card-header">
-                            <h3 class="card-title">Заявки в работе</h3>
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Причина</th>
-                                    <th>Дата</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($user->workProblems() as $problem)
-
+                    <div class="col-md-6">
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">Заявки в работе</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
                                     <tr>
-                                        <td>{{$problem->reason()->title}}</td>
-                                        <td>{{$problem->created_at }}</td>
-                                        <td class="text-right align-middle">
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{{route('problem.edit',  $problem->id)}}" class="btn btn-success">Редактировать</a>
-                                            </div>
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{{route('report.create',  $problem->id)}}" class="btn btn-info">Написать отчет</a>
-                                            </div>
-                                        </td>
+                                        <th>Причина</th>
+                                        <th>Дата</th>
+                                        <th></th>
                                     </tr>
-                                @endforeach
+                                    </thead>
+                                    <tbody>
+                                    @foreach($user->workProblems() as $problem)
 
-                                </tbody>
-                            </table>
+                                        <tr>
+                                            <td>{{$problem->reason()->title}}</td>
+                                            <td>{{$problem->created_at }}</td>
+                                            <td class="text-right align-middle">
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{{route('problem.edit',  $problem->id)}}"
+                                                       class="btn btn-success">Редактировать</a>
+                                                </div>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{{route('report.create',  $problem->id)}}"
+                                                       class="btn btn-info">Написать отчет</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card card-secondary">
-                        <div class="card-header">
-                            <h3 class="card-title">Заявки завершеные</h3>
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Причина</th>
-                                    <th>Дата</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($user->completedProblems() as $problem)
-
+                    <div class="col-md-6">
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">Заявки завершеные</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
                                     <tr>
-                                        <td>{{$problem->reason()->title}}</td>
-                                        <td>{{$problem->created_at }}</td>
-                                        <td class="text-right align-middle">
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{{route('report.pdf',  $problem->id)}}" class="btn btn-info">PDF</a>
-                                            </div>
-                                        </td>
-                                        <td class="text-right align-middle">
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{{route('report.show',  $problem->id)}}" class="btn btn-info"><i
-                                                        class="fas fa-eye"></i>Посмотреть</a>
-                                            </div>
-                                        </td>
+                                        <th>Причина</th>
+                                        <th>Дата</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
-                                @endforeach
+                                    </thead>
+                                    <tbody>
+                                    @foreach($user->completedProblems() as $problem)
 
-                                </tbody>
-                            </table>
+                                        <tr>
+                                            <td>{{$problem->reason()->title}}</td>
+                                            <td>{{$problem->created_at }}</td>
+                                            <td class="text-right align-middle">
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{{route('report.pdf',  $problem->id)}}"
+                                                       class="btn btn-info">PDF</a>
+                                                </div>
+                                            </td>
+                                            <td class="text-right align-middle">
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{{route('report.show',  $problem->id)}}"
+                                                       class="btn btn-info"><i
+                                                            class="fas fa-eye"></i>Посмотреть</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                </div>
                 @endif()
                 @if(auth()->user()->role == 0)
                     <div class="col-md-6">
@@ -305,12 +311,14 @@
                                             <td>{{$problem->created_at }}</td>
                                             <td class="text-right align-middle">
                                                 <div class="btn-group btn-group-sm">
-                                                    <a href="{{route('report.pdf',  $problem->id)}}" class="btn btn-info">PDF</a>
+                                                    <a href="{{route('report.pdf',  $problem->id)}}"
+                                                       class="btn btn-info">PDF</a>
                                                 </div>
                                             </td>
                                             <td class="text-right align-middle">
                                                 <div class="btn-group btn-group-sm">
-                                                    <a href="{{route('report.show',  $problem->id)}}" class="btn btn-info"><i
+                                                    <a href="{{route('report.show',  $problem->id)}}"
+                                                       class="btn btn-info"><i
                                                             class="fas fa-eye"></i>Посмотреть</a>
                                                 </div>
                                             </td>
@@ -324,7 +332,7 @@
                         </div>
                     </div>
                 @endif()
-                    @if(auth()->user()->role != 2)
+                @if(auth()->user()->role != 2)
                     <div class="col-md-6">
                         <div class="card card-secondary">
                             <div class="card-header">
@@ -340,7 +348,9 @@
                                     <tbody>
                                     @foreach($user->documents() as $document)
                                         <tr>
-                                            <td>   <a download="{{$document->title}}" href="{{ asset('storage/' . $document->src) }}">{{$document->title}}</a></td>
+                                            <td><a download="{{$document->title}}"
+                                                   href="{{ asset('storage/' . $document->src) }}">{{$document->title}}</a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -357,7 +367,7 @@
     @if(auth()->user()->role == 2)
         <style>
             .body-check {
-             height: auto;
+                height: auto;
             }
         </style>
     @endif
