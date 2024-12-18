@@ -18,7 +18,7 @@
                                 <div class="form-group row">
                                     <label for="inputName" class="col-sm-2 col-form-label">Название</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="title" id="inputName">
+                                        <input class="form-control" name="title" id="inputName" required>
                                     </div>
                                 </div>
                                 <input hidden type="text" name="user_id" value="{{$user->id}}">

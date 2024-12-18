@@ -183,7 +183,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Комметарий</label>
-                                    <textarea name="comment" class="form-control" rows="5"></textarea>
+                                    <textarea name="comment" class="form-control" rows="5" required></textarea>
                                 </div>
                                 <div class="card card-success">
                                     {{--                                        <div class="card-header">--}}

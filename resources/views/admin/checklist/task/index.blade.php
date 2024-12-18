@@ -18,14 +18,14 @@
                                 <div class="form-group row">
                                     <label for="inputName" class="col-sm-2 col-form-label">Название</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="title" id="inputName">
+                                        <input class="form-control" name="title" id="inputName" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputName" class="col-sm-2 col-form-label">Описание</label>
                                     <div class="col-sm-10">
                                         <textarea class="form-control" name="text" id="inputName"
-                                               placeholder="Название"> </textarea>
+                                               placeholder="Название" required> </textarea>
                                     </div>
                                 </div>
                                 <input hidden type="text" name="checklist_id" value="{{$checklist->id}}">
